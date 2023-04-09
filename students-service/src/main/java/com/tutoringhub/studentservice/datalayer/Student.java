@@ -16,7 +16,6 @@ public class Student {
     @Embedded
     private StudentIdentifier studentIdentifier;
 
-
     private String studentName;
     private String studentAge;
     private String studentEmail;

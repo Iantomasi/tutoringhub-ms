@@ -2,11 +2,13 @@ package com.tutoringhub.studentservice.businesslayer;
 
 
 import com.tutoringhub.studentservice.datalayer.Student;
+import com.tutoringhub.studentservice.datalayer.StudentIdentifier;
 import com.tutoringhub.studentservice.datalayer.StudentRepository;
 import com.tutoringhub.studentservice.datamapperlayer.StudentRequestMapper;
 import com.tutoringhub.studentservice.datamapperlayer.StudentResponseMapper;
 import com.tutoringhub.studentservice.presentationlayer.StudentRequestModel;
 import com.tutoringhub.studentservice.presentationlayer.StudentResponseModel;
+import com.tutoringhub.studentservice.utils.exceptions.DuplicateEmailException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,8 +40,17 @@ public class StudentServiceImpl implements StudentService{
     public StudentResponseModel addStudent(StudentRequestModel studentRequestModel) {
 
         Student student = studentRequestMapper.requestModelToEntity(studentRequestModel);
-        Student saved = studentRepository.save(student);
-        return studentResponseMapper.entityToResponseModel(saved);
+
+        String existingEmail = studentRequestModel.getStudentEmail();
+        List<Student> foundStudents = studentRepository.findStudentByStudentEmail(existingEmail);
+
+        if (foundStudents.size() > 0) {
+            throw new DuplicateEmailException("Email pertaining to more than one student");
+        } else {
+
+            Student saved = studentRepository.save(student);
+            return studentResponseMapper.entityToResponseModel(saved);
+        }
     }
 
     @Override

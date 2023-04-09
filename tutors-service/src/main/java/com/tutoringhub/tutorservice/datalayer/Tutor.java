@@ -18,6 +18,7 @@ public class Tutor {
     private String tutorName;
     private String tutorAge;
     private String tutorEmail;
+    //private Integer tutorGpa;
 
     @Enumerated(EnumType.STRING)
     private Specialty specialty;

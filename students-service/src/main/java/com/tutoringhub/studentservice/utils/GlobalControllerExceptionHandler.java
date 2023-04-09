@@ -1,6 +1,8 @@
 package com.tutoringhub.studentservice.utils;
 
 
+
+import com.tutoringhub.studentservice.utils.exceptions.DuplicateEmailException;
 import com.tutoringhub.studentservice.utils.exceptions.InvalidInputException;
 import com.tutoringhub.studentservice.utils.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,12 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(InvalidInputException.class)
     public HttpErrorInfo handleInvalidInputException(WebRequest request, Exception ex) {
+        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+
+    }
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(DuplicateEmailException.class)
+    public HttpErrorInfo handleDuplicateVinException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 
