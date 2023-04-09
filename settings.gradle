@@ -1,0 +1,5 @@
+include 'students-service'
+include 'tutors-service'
+include 'lessons-service'
+include 'supervisorconfirmations-service'
+include 'api-gateway'
