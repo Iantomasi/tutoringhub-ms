@@ -1,9 +1,8 @@
 package com.tutoringhub.lessonservice.utils;
 
 
-import com.tutoringhub.lessonservice.utils.exceptions.DuplicateLessonDateDurationClassRoomException;
-import com.tutoringhub.lessonservice.utils.exceptions.InvalidInputException;
 import com.tutoringhub.lessonservice.utils.exceptions.NotFoundException;
+import com.tutoringhub.lessonservice.utils.exceptions.UnregisteredLessonSubjectException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,20 +23,12 @@ public class GlobalControllerExceptionHandler {
         return createHttpErrorInfo(NOT_FOUND, request, ex);
     }
 
-    @ResponseStatus(UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(InvalidInputException.class)
-    public HttpErrorInfo handleInvalidInputException(WebRequest request, Exception ex) {
-        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
-    }
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(DuplicateLessonDateDurationClassRoomException.class)
+    @ExceptionHandler(UnregisteredLessonSubjectException.class)
     public HttpErrorInfo handleDuplicateLessonDateDurationClassRoomException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
-
-
-
 
 
     private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, WebRequest request, Exception ex) {

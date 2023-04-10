@@ -13,10 +13,10 @@ import lombok.Value;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TutorRequestModel {
 
-    private String tutorId;
     private String tutorName;
     private String tutorAge;
     private String tutorEmail;
+    private double tutorGpa;
     private Specialty specialty;
     private Experience experience;
 }

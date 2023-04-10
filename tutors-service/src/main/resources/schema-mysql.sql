@@ -6,6 +6,7 @@ create table if not exists tutors(
     tutor_name VARCHAR (50),
     tutor_age VARCHAR(50),
     tutor_email VARCHAR(50),
+    tutor_gpa DECIMAL(3,2),
     specialty VARCHAR(50),
     experience VARCHAR(50)
     );

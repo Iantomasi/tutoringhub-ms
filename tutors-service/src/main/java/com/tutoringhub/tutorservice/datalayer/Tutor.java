@@ -18,7 +18,7 @@ public class Tutor {
     private String tutorName;
     private String tutorAge;
     private String tutorEmail;
-    //private Integer tutorGpa;
+    private Double tutorGpa;
 
     @Enumerated(EnumType.STRING)
     private Specialty specialty;
@@ -29,10 +29,13 @@ public class Tutor {
 
     Tutor(){ this.tutorIdentifier = new TutorIdentifier(); }
 
-    public Tutor(String tutorName, String tutorAge, String tutorEmail) {
+    public Tutor(String tutorName, String tutorAge, String tutorEmail, Double tutorGpa, Specialty specialty, Experience experience) {
         this.tutorIdentifier = new TutorIdentifier();
         this.tutorName = tutorName;
         this.tutorAge = tutorAge;
         this.tutorEmail = tutorEmail;
+        this.tutorGpa = tutorGpa;
+        this.specialty = specialty;
+        this.experience = experience;
     }
 }

@@ -9,6 +9,8 @@ import com.tutoringhub.studentservice.datamapperlayer.StudentResponseMapper;
 import com.tutoringhub.studentservice.presentationlayer.StudentRequestModel;
 import com.tutoringhub.studentservice.presentationlayer.StudentResponseModel;
 import com.tutoringhub.studentservice.utils.exceptions.DuplicateEmailException;
+import com.tutoringhub.studentservice.utils.exceptions.NotFoundException;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,12 +34,19 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentResponseModel getStudentByStudentId(String studentId) {
-        return studentResponseMapper.entityToResponseModel(studentRepository.findStudentByStudentIdentifier_StudentId(studentId));
+    public StudentResponseModel getStudentByStudentId(String studentId) throws NotFoundException {
+
+        Student queriedStudent = studentRepository.findStudentByStudentIdentifier_StudentId(studentId);
+
+        if (queriedStudent == null) {
+            throw new NotFoundException("No student assigned to this studentId");
+        } else {
+            return studentResponseMapper.entityToResponseModel(studentRepository.findStudentByStudentIdentifier_StudentId(studentId));
+        }
     }
 
     @Override
-    public StudentResponseModel addStudent(StudentRequestModel studentRequestModel) {
+    public StudentResponseModel addStudent(StudentRequestModel studentRequestModel) throws DuplicateEmailException {
 
         Student student = studentRequestMapper.requestModelToEntity(studentRequestModel);
 
@@ -54,26 +63,27 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentResponseModel updateStudent(StudentRequestModel studentRequestModel, String studentId){
+    public StudentResponseModel updateStudent(StudentRequestModel studentRequestModel, String studentId) throws NotFoundException {
 
         Student existingStudent = studentRepository.findStudentByStudentIdentifier_StudentId(studentId);
-        if(existingStudent == null){
-            return null;
+        if (existingStudent == null) {
+            throw new NotFoundException("No student assigned to this studentId");
+        } else {
+            Student student = studentRequestMapper.requestModelToEntity(studentRequestModel);
+            student.setId(existingStudent.getId());
+            student.setStudentIdentifier(existingStudent.getStudentIdentifier());
+            return studentResponseMapper.entityToResponseModel(studentRepository.save(student));
         }
-
-        Student student = studentRequestMapper.requestModelToEntity(studentRequestModel);
-        student.setId(existingStudent.getId());
-        student.setStudentIdentifier(existingStudent.getStudentIdentifier());
-        return studentResponseMapper.entityToResponseModel(studentRepository.save(student));
     }
 
 
     @Override
-    public void removeStudent(String studentId) {
+    public void removeStudent(String studentId) throws NotFoundException {
         Student existingStudent = studentRepository.findStudentByStudentIdentifier_StudentId(studentId);
-        if(existingStudent == null){
-            return;
+        if (existingStudent == null) {
+            throw new NotFoundException("No student assigned to this studentId");
+        } else {
+            studentRepository.delete(existingStudent);
         }
-        studentRepository.delete(existingStudent);
     }
 }

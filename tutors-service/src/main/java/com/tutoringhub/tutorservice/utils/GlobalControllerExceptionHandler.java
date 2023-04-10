@@ -1,7 +1,7 @@
 package com.tutoringhub.tutorservice.utils;
 
 
-import com.tutoringhub.tutorservice.utils.exceptions.InvalidInputException;
+import com.tutoringhub.tutorservice.utils.exceptions.InadequateGpaException;
 import com.tutoringhub.tutorservice.utils.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class GlobalControllerExceptionHandler {
     }
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(InvalidInputException.class)
-    public HttpErrorInfo handleInvalidInputException(WebRequest request, Exception ex) {
+    @ExceptionHandler(InadequateGpaException.class)
+    public HttpErrorInfo handleDuplicateVinException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 

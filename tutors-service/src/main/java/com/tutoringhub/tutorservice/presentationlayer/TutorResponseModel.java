@@ -17,6 +17,7 @@ public class TutorResponseModel {
     private String tutorName;
     private String tutorAge;
     private String tutorEmail;
+    private double tutorGpa;
     private Specialty specialty;
     private Experience experience;
 
