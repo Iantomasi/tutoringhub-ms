@@ -1,6 +1,8 @@
 package com.tutoringhub.studentservice.presentationlayer;
 
 import com.tutoringhub.studentservice.businesslayer.StudentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,19 +26,20 @@ public class StudentController {
     }
 
     @PostMapping()
-    public StudentResponseModel addStudent(@RequestBody StudentRequestModel studentRequestModel){
-        return studentService.addStudent(studentRequestModel);
+    ResponseEntity<StudentResponseModel> addStudent(@RequestBody StudentRequestModel studentRequestModel){
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudent(studentRequestModel));
     }
 
 
     @PutMapping("/{studentId}")
-    public StudentResponseModel updateStudent(@RequestBody StudentRequestModel studentRequestModel, @PathVariable String studentId){
-        return studentService.updateStudent(studentRequestModel, studentId);
+    ResponseEntity<StudentResponseModel> updateStudent(@RequestBody StudentRequestModel studentRequestModel, @PathVariable String studentId){
+        return ResponseEntity.ok().body(studentService.updateStudent(studentRequestModel, studentId));
     }
 
     @DeleteMapping("/{studentId}")
-    void removeStudent(@PathVariable String studentId){
+    ResponseEntity<Void>removeStudent(@PathVariable String studentId){
         studentService.removeStudent(studentId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

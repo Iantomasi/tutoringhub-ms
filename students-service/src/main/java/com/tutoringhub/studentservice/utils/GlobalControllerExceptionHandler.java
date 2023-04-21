@@ -27,7 +27,7 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(DuplicateEmailException.class)
-    public HttpErrorInfo handleDuplicateVinException(WebRequest request, Exception ex) {
+    public HttpErrorInfo handleDuplicateEmailException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 
