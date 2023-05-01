@@ -1,9 +1,5 @@
-package com.tutoringhub.tutorservice.presentationlayer;
+package com.tutoringhub.apigateway.presentationlayer.tutor;
 
-
-import com.tutoringhub.tutorservice.datalayer.Experience;
-import com.tutoringhub.tutorservice.datalayer.Specialty;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
@@ -11,7 +7,6 @@ import lombok.Value;
 @Value
 @Builder
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
 public class TutorRequestModel {
 
     private String tutorName;

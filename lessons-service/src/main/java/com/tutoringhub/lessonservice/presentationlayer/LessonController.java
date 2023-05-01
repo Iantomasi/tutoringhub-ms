@@ -2,6 +2,9 @@ package com.tutoringhub.lessonservice.presentationlayer;
 
 
 import com.tutoringhub.lessonservice.businesslayer.LessonService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,18 +28,20 @@ public class LessonController {
     }
 
     @PostMapping()
-    public LessonResponseModel addLesson(@RequestBody LessonRequestModel lessonRequestModel){
-        return lessonService.addLesson(lessonRequestModel);
+    ResponseEntity<LessonResponseModel> addLesson(@RequestBody LessonRequestModel lessonRequestModel){
+        return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.addLesson(lessonRequestModel));
     }
 
     @PutMapping("/{lessonId}")
-    public LessonResponseModel updateLesson(@RequestBody LessonRequestModel lessonRequestModel, @PathVariable String lessonId){
-        return lessonService.updateLesson(lessonRequestModel, lessonId);
+    ResponseEntity<LessonResponseModel> updateLesson(@RequestBody LessonRequestModel lessonRequestModel, @PathVariable String lessonId){
+        return ResponseEntity.ok().body(lessonService.updateLesson(lessonRequestModel, lessonId));
     }
 
     @DeleteMapping("/{lessonId}")
-    public void removeLesson(@PathVariable String lessonId){
+    ResponseEntity<Void> removeLesson(@PathVariable String lessonId){
         lessonService.removeLesson(lessonId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 
 }

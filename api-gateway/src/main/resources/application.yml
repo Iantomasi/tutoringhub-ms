@@ -1,0 +1,37 @@
+# Default Spring Profile
+server:
+  error:
+    include-message: always
+
+logging:
+  level:
+    root: INFO
+    com.tutoringhub: DEBUG
+
+app:
+  lessons-service:
+    host: localhost
+    port: 7001
+  students-service:
+    host: localhost
+    port: 7002
+  tutors-service:
+    host: localhost
+    port: 7003
+
+---
+
+# for docker
+spring:
+  port: 8080
+
+app:
+  lessons-service:
+    host: lessons-service
+    port: 8080
+  students-service:
+    host: students-service
+    port: 8080
+  tutors-service:
+    host: tutors-service
+    port: 8080

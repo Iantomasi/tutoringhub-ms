@@ -67,7 +67,7 @@ public class StudentControllerIntegrationTest {
     }
 
     @Test
-    public void whenGetStudentWithInvalidId_thenReturnNotFoundException() {
+    public void whenGetStudentWithInvalidStudentId_thenReturnNotFoundException() {
 
 
         String INVALID_STUDENT_ID = VALID_STUDENT_ID + 1;
@@ -103,7 +103,6 @@ public class StudentControllerIntegrationTest {
                 .jsonPath("$.studentAge").isEqualTo(expectedStudentAge)
                 .jsonPath("$.studentEmail").isEqualTo(expectedStudentEmail)
                 .jsonPath("$.studentSchool").isEqualTo(expectedStudentSchool);
-
     }
 
     @Test
@@ -115,13 +114,13 @@ public class StudentControllerIntegrationTest {
         String updatedStudentEmail = "gman2@gmail.com";
         String updatedStudentSchool = "Dawson College";
 
-        StudentRequestModel studentRequestModel = new StudentRequestModel(updatedStudentName, updatedStudentAge, updatedStudentEmail, updatedStudentSchool);
+        StudentRequestModel updatedStudent = new StudentRequestModel(updatedStudentName, updatedStudentAge, updatedStudentEmail, updatedStudentSchool);
 
         //act and assert
         webTestClient.put()
                 .uri(BASE_URI_STUDENTS + "/" + VALID_STUDENT_ID)
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(studentRequestModel)
+                .bodyValue(updatedStudent)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
@@ -145,19 +144,27 @@ public class StudentControllerIntegrationTest {
     }
 
 
+    @Test
+    public void whenStudentEmailIsDuplicatedForPOST_thenReturnDuplicateEmailException() {
 
+        String DUPLICATED_EMAIl= VALID_STUDENT_EMAIL;
 
+        //arrange
+        StudentRequestModel studentRequestModel = new StudentRequestModel(VALID_STUDENT_NAME, VALID_STUDENT_AGE, DUPLICATED_EMAIl, VALID_STUDENT_SCHOOL);
 
-
-
-
-
-
-
-
-
-
-
+        //act and assert
+        webTestClient.post()
+                .uri(BASE_URI_STUDENTS).accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(studentRequestModel)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatusCode.valueOf(422))
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody().jsonPath("$.path")
+                .isEqualTo("uri=" + BASE_URI_STUDENTS)
+                .jsonPath("$.message").isEqualTo("Email pertaining to more than one student");
+    }
 
 
 

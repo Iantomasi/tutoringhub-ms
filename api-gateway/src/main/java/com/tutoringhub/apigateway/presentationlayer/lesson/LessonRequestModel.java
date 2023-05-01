@@ -1,7 +1,5 @@
-package com.tutoringhub.lessonservice.presentationlayer;
+package com.tutoringhub.apigateway.presentationlayer.lesson;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 

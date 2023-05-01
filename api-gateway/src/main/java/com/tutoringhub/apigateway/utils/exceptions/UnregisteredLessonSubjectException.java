@@ -1,4 +1,4 @@
-package com.tutoringhub.lessonservice.utils.exceptions;
+package com.tutoringhub.apigateway.utils.exceptions;
 
 public class UnregisteredLessonSubjectException extends RuntimeException{
 

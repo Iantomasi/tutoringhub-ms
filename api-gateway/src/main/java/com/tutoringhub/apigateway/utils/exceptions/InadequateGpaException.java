@@ -1,4 +1,4 @@
-package com.tutoringhub.tutorservice.utils.exceptions;
+package com.tutoringhub.apigateway.utils.exceptions;
 
 public class InadequateGpaException extends RuntimeException {
 

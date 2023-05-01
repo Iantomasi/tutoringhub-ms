@@ -1,4 +1,4 @@
-package com.tutoringhub.studentservice.utils.exceptions;
+package com.tutoringhub.apigateway.utils.exceptions;
 
 public class DuplicateEmailException extends RuntimeException{
 

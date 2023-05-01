@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'io.freefair.lombok' version '6.6.1'
+	id 'jacoco'
 }
 group = 'com.tutoringhub.tutorservice'
 version = '0.0.1-SNAPSHOT'
@@ -17,10 +18,9 @@ repositories {
 }
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'mysql:mysql-connector-java'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -30,10 +30,43 @@ dependencies {
 			"org.projectlombok:lombok:${lombokVersion}",
 			"org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation('com.h2database:h2')
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas' // added for HATEOAS from spring initializer
+	runtimeOnly'com.h2database:h2'
+	testImplementation('com.h2database:h2')
 }
-tasks.named('test') {
+
+jacoco{
+	toolVersion = "0.8.8"
+}
+
+jacocoTestReport {
+	dependsOn test
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [])
+		}))
+	}
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.00
+			}
+		}
+	}
+}
+
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+
+test {
 	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }

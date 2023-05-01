@@ -1,13 +1,11 @@
-package com.tutoringhub.lessonservice.presentationlayer;
+package com.tutoringhub.apigateway.presentationlayer.lesson;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
-@Value
-@Builder
-//@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class LessonResponseModel {
 
     private String lessonId;
