@@ -1,11 +1,14 @@
 package com.tutoringhub.apigateway.presentationlayer.lesson;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 
-@Value
-@Builder
-//@AllArgsConstructor(access = AccessLevel.PRIVATE)
+//@Value
+//@Builder
+@Data
+@AllArgsConstructor
 public class LessonRequestModel {
 
     private String lessonSubject;

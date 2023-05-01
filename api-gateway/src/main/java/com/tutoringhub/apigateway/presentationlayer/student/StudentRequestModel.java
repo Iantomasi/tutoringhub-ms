@@ -2,9 +2,10 @@ package com.tutoringhub.apigateway.presentationlayer.student;
 
 import lombok.*;
 
-@Value
-@Builder
-//@AllArgsConstructor(access = AccessLevel.PRIVATE)
+//@Value
+//@Builder
+@Data
+@AllArgsConstructor
 public class StudentRequestModel {
 
     private String studentName;

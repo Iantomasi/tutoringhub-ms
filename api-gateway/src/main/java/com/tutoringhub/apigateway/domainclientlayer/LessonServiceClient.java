@@ -1,17 +1,25 @@
 package com.tutoringhub.apigateway.domainclientlayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tutoringhub.apigateway.presentationlayer.lesson.LessonRequestModel;
 import com.tutoringhub.apigateway.presentationlayer.lesson.LessonResponseModel;
+import com.tutoringhub.apigateway.presentationlayer.tutor.TutorRequestModel;
+import com.tutoringhub.apigateway.presentationlayer.tutor.TutorResponseModel;
 import com.tutoringhub.apigateway.utils.HttpErrorInfo;
 import com.tutoringhub.apigateway.utils.exceptions.NotFoundException;
 import com.tutoringhub.apigateway.utils.exceptions.UnregisteredLessonSubjectException;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
@@ -28,13 +36,25 @@ public class LessonServiceClient {
     public LessonServiceClient(RestTemplate restTemplate,
                                ObjectMapper objectMapper,
                                @Value("${app.lessons-service.host}") String lessonsServiceHost,
-                               @Value("{app.lessons-service.port}") String lessonsServicePort){
+                               @Value("${app.lessons-service.port}") String lessonsServicePort){
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
-        this.LESSON_SERVICE_BASE_URL = "http://" + lessonsServiceHost + ":" + lessonsServicePort + "api/v1/lessons";
+        this.LESSON_SERVICE_BASE_URL = "http://" + lessonsServiceHost + ":" + lessonsServicePort + "/api/v1/lessons";
     }
 
+    public List<LessonResponseModel> getAllLessonsAggregate(){
+        log.debug("3. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate");
+        try{
+            String url= LESSON_SERVICE_BASE_URL;
 
+            LessonResponseModel[] lessonResponseArray = restTemplate
+                    .getForObject(url, LessonResponseModel[].class);
+            return Arrays.asList(lessonResponseArray);
+        }catch (HttpClientErrorException ex){
+            log.debug("5. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate with exception: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
 
     public LessonResponseModel getLessonAggregate(String lessonId){
 
@@ -45,13 +65,74 @@ public class LessonServiceClient {
                     .getForObject(url, LessonResponseModel.class);
             log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
         }catch(HttpClientErrorException ex) {
-
             log.debug("5.");
-            throw new RuntimeException(ex);
+            throw  handleHttpClientException(ex);
         }
          return lessonResponseModel;
     }
 
+
+    public LessonResponseModel addLessonAggregate(LessonRequestModel lessonRequestModel) {
+
+        log.debug("3. Received in Api-Gateway Lesson Service Client addLessonAggregate");
+
+        try {
+
+            String url = LESSON_SERVICE_BASE_URL;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<LessonRequestModel> requestModelHttpEntity = new HttpEntity<>(lessonRequestModel, headers);
+
+            LessonResponseModel lessonResponseModel = restTemplate.postForObject(url, requestModelHttpEntity, LessonResponseModel.class);
+            return lessonResponseModel;
+        } catch (HttpClientErrorException ex) {
+
+            log.debug("5. Received in Api-Gateway Lesson Service Client addLessonAggregate with exception: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
+
+    public LessonResponseModel updateLessonAggregate(LessonRequestModel lessonRequestModel, String lessonId) {
+
+        log.debug("3. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonId: " + lessonId);
+
+
+        try {
+
+            String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<LessonRequestModel> requestModelHttpEntity = new HttpEntity<>(lessonRequestModel, headers);
+
+            restTemplate.put(url, requestModelHttpEntity, lessonId);
+
+            LessonResponseModel lessonResponseModel = restTemplate
+                    .getForObject(url, LessonResponseModel.class);
+            log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
+            return lessonResponseModel;
+        } catch (HttpClientErrorException ex) {
+            log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with exception: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
+
+    public void removeLessonAggregate(String lessonId){
+
+        log.debug("3. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
+
+        try{
+
+            String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
+            restTemplate.delete(url);
+            log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
+        }catch (HttpClientErrorException ex){
+
+            log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with exception: " + ex.getMessage());
+            throw handleHttpClientException(ex);
+        }
+    }
 
     private RuntimeException handleHttpClientException(HttpClientErrorException ex) {
         if (ex.getStatusCode() == NOT_FOUND) {
