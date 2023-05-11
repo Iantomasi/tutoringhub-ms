@@ -40,7 +40,7 @@ public class LessonController {
 
     @PostMapping()
     ResponseEntity<LessonResponseModel> addLessonAggregate(@RequestBody LessonRequestModel lessonRequestModel){
-        log.debug("1. Received in Api-Gateway Lesson Controller addLessonAggregate");
+        log.debug("1 . Received in Api-Gateway Lesson Controller addLessonAggregate");
         return ResponseEntity.status(HttpStatus.CREATED).body(lessonService.addLessonAggregate(lessonRequestModel));
     }
 

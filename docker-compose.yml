@@ -38,6 +38,15 @@ services:
       mysql3:
         condition: service_healthy
 
+  supervisorconfirmations-service:
+    build: supervisorconfirmations-service
+    hostname: supervisorconfirmations-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongodb
+
+
   mysql1:
     image: mysql:5.7
     ports:

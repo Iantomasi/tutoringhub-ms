@@ -1,17 +1,13 @@
-package com.tutoringhub.lessonservice.presentationlayer;
+package com.tutoringhub.supervisorconfirmationservice.domainclientlayer.lesson;
 
-import com.tutoringhub.lessonservice.datalayer.LessonStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 
 @Value
 @Builder
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonResponseModel {
+public class LessonRequestModel {
 
-    private String lessonId;
     private String lessonSubject;
     private String lessonDate;
     private String lessonDuration;
@@ -22,3 +18,4 @@ public class LessonResponseModel {
     private String postalCode;
 
 }
+

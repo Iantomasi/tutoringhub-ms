@@ -3,6 +3,7 @@ package com.tutoringhub.lessonservice.presentationlayer;
 import com.tutoringhub.lessonservice.datalayer.Address;
 import com.tutoringhub.lessonservice.datalayer.Lesson;
 import com.tutoringhub.lessonservice.datalayer.LessonRepository;
+import com.tutoringhub.lessonservice.datalayer.LessonStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
@@ -70,7 +71,6 @@ public class LessonControllerIntegrationTest {
 
     }
 
-
     @Test
     public void whenGetLessonWithInvalidLessonId_thenReturnNotFoundException(){
 
@@ -94,7 +94,7 @@ public class LessonControllerIntegrationTest {
         String expectedPostalCode = "H1S 1J2";
 
 
-        LessonRequestModel lessonRequestModel = new LessonRequestModel(expectedLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, expectedStreetAddress, expectedCity, expectedPostalCode);
+        LessonRequestModel lessonRequestModel = new LessonRequestModel(expectedLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, LessonStatus.SCHEDULED, expectedStreetAddress, expectedCity, expectedPostalCode);
 
         //act and assert
         webTestClient.post()
@@ -128,7 +128,7 @@ public class LessonControllerIntegrationTest {
         String updatedCity = "Saint-Lambert";
         String updatedPostalCode = "H1S 1J2";
 
-        LessonRequestModel updatedLesson = new LessonRequestModel(updatedLessonSubject, updatedLessonDate, updatedLessonDuration, updatedLessonClassroom, updatedStreetAddress, updatedCity, updatedPostalCode);
+        LessonRequestModel updatedLesson = new LessonRequestModel(updatedLessonSubject, updatedLessonDate, updatedLessonDuration, updatedLessonClassroom, LessonStatus.COMPLETED, updatedStreetAddress, updatedCity, updatedPostalCode);
 
         //act and assert
         webTestClient.put()
@@ -173,7 +173,7 @@ public class LessonControllerIntegrationTest {
         String expectedPostalCode = "H1S 1J2";
 
 
-        LessonRequestModel lessonRequestModel = new LessonRequestModel(invalidLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, expectedStreetAddress, expectedCity, expectedPostalCode);
+        LessonRequestModel lessonRequestModel = new LessonRequestModel(invalidLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, LessonStatus.SCHEDULED, expectedStreetAddress, expectedCity, expectedPostalCode);
 
         //act and assert
         webTestClient.post()

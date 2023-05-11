@@ -50,7 +50,8 @@ public class TutorPersistence {
         assertEquals(expectedTutorAge, savedTutor.getTutorAge());
         assertEquals(expectedTutorEmail, savedTutor.getTutorEmail());
         assertEquals(expectedTutorGpa, savedTutor.getTutorGpa());
-
+        assertEquals(Specialty.French, savedTutor.getSpecialty());
+        assertEquals(Experience.MidLevel, savedTutor.getExperience());
     }
 
     @Test
@@ -66,7 +67,6 @@ public class TutorPersistence {
         //assert
         assertNotNull(savedTutor);
         assertThat(savedTutor, samePropertyValuesAs(preSavedTutor));
-
 
     }
 

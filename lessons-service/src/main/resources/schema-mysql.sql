@@ -8,6 +8,7 @@ create table if not exists lessons(
     lesson_date VARCHAR(50),
     lesson_duration VARCHAR(50),
     lesson_classroom VARCHAR(50),
+    lesson_status VARCHAR (50),
     street_address VARCHAR (50),
     city VARCHAR(50),
     postal_code VARCHAR(9)

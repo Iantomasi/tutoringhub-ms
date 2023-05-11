@@ -25,7 +25,7 @@ public class LessonPersistence {
     public void setupTestDb() {
         lessonRepository.deleteAll();
         Address preSavedAddress = new Address("3040 Rue Sherbrooke O", "Montreal", "H3Z 1A4");
-        preSavedLesson = lessonRepository.save(new Lesson("English", "April 29th 2023", "13:00-14:00", "A121", preSavedAddress));
+        preSavedLesson = lessonRepository.save(new Lesson("English", "April 29th 2023", "13:00-14:00", "A121",  LessonStatus.SCHEDULED, preSavedAddress));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class LessonPersistence {
         String expectedLessonClassroom = "A101";
 
         Address newAddress = new Address("900 Riverside Drive", "Saint-Lambert", "H1S 1J2");
-        Lesson newLesson = new Lesson(expectedLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, newAddress);
+        Lesson newLesson = new Lesson(expectedLessonSubject, expectedLessonDate, expectedLessonDuration, expectedLessonClassroom, LessonStatus.SCHEDULED, newAddress);
 
         Lesson savedLesson = lessonRepository.save(newLesson);
 
@@ -50,6 +50,7 @@ public class LessonPersistence {
         assertEquals(expectedLessonDate, savedLesson.getLessonDate());
         assertEquals(expectedLessonDuration, savedLesson.getLessonDuration());
         assertEquals(expectedLessonClassroom, savedLesson.getLessonClassroom());
+        assertEquals(LessonStatus.SCHEDULED, savedLesson.getLessonStatus());
     }
 
 

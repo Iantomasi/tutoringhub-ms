@@ -21,18 +21,21 @@ public class Lesson {
     private String lessonDuration;
     private String lessonClassroom;
 
+    @Enumerated(EnumType.STRING)
+    private LessonStatus lessonStatus;
 
     @Embedded
     private Address address;
 
     Lesson(){ this.lessonIdentifier = new LessonIdentifier(); }
 
-    public Lesson(String lessonSubject, String lessonDate, String lessonDuration, String lessonClassroom, Address address) {
+    public Lesson(String lessonSubject, String lessonDate, String lessonDuration, String lessonClassroom, LessonStatus lessonStatus, Address address) {
         this.lessonIdentifier = new LessonIdentifier();
         this.lessonSubject = lessonSubject;
         this.lessonDate = lessonDate;
         this.lessonDuration = lessonDuration;
         this.lessonClassroom = lessonClassroom;
+        this.lessonStatus = lessonStatus;
         this.address = address;
     }
 }
