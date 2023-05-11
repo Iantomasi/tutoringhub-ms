@@ -55,6 +55,30 @@ public class LessonServiceClient {
     }
 
 
+
+
+
+    public void updateLessonStatus(LessonRequestModel lessonRequestModel, String lessonId){
+        log.debug("3. Received in API-Gateway Lesson Service Client updateLessonStatus");
+
+        try{
+
+          String url= LESSON_SERVICE_BASE_URL+"/"+lessonId;
+          restTemplate.put(url, lessonRequestModel);
+
+
+            log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with lessonId: "
+                    + lessonId);
+
+        }catch (HttpClientErrorException ex){
+            log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with exception: "
+                    +ex.getMessage());
+            throw handleHttpClientException(ex);
+
+        }
+
+    }
+
     private RuntimeException handleHttpClientException(HttpClientErrorException ex) {
         if (ex.getStatusCode() == NOT_FOUND) {
             return new NotFoundException(getErrorMessage(ex));

@@ -91,6 +91,9 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
                 .postalCode(lessonResponseModel.getPostalCode())
                 .build();
 
+
+        lessonServiceClient.updateLessonStatus(lessonRequestModel, lessonResponseModel.getLessonId());
+
         return supervisorConfirmationResponseModelMapper.entityToResponseModel(saved);
     }
 
