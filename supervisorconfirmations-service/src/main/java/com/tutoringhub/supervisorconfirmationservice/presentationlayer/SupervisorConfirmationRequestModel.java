@@ -20,7 +20,7 @@ public class SupervisorConfirmationRequestModel {
     private String tutorName;
     private Approval approval;
     private LocalDate confirmationDate;
-
+    private String supervisorComments;
 
 
 }

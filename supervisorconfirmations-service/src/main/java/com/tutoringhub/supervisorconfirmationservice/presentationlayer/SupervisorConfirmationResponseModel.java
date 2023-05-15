@@ -23,8 +23,6 @@ public class SupervisorConfirmationResponseModel {
     private String tutorName;
     private Approval approval;
     private LocalDate confirmationDate;
-
-
-
+    private String supervisorComments;
 
 }

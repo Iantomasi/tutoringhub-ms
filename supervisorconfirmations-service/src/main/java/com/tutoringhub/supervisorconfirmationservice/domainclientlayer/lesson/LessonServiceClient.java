@@ -56,8 +56,6 @@ public class LessonServiceClient {
 
 
 
-
-
     public void updateLessonStatus(LessonRequestModel lessonRequestModel, String lessonId){
         log.debug("3. Received in API-Gateway Lesson Service Client updateLessonStatus");
 

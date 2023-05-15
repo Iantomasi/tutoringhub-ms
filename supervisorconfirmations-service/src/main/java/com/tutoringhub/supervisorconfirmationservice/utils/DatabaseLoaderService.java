@@ -33,6 +33,7 @@ public class DatabaseLoaderService implements CommandLineRunner {
                 .tutorName("Mourinho")
                 .approval(Approval.PENDING)
                 .confirmationDate(LocalDate.of(2023, 04, 10))
+                .supervisorComments("Cristiano was present and displayed good efforts.")
                 .build();
 
 
@@ -54,6 +55,7 @@ public class DatabaseLoaderService implements CommandLineRunner {
                 .tutorName("Jose")
                 .approval(Approval.APPROVED)
                 .confirmationDate(LocalDate.of(2023, 04, 11))
+                .supervisorComments("Paulo was present and displayed good efforts.")
                 .build();
 
 

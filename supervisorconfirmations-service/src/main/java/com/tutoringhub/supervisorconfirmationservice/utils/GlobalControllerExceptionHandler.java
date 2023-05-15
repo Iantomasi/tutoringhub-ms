@@ -1,5 +1,6 @@
 package com.tutoringhub.supervisorconfirmationservice.utils;
 
+import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.InsufficientCommentException;
 import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.InvalidInputException;
 import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,11 @@ public class GlobalControllerExceptionHandler {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(InsufficientCommentException.class)
+    public HttpErrorInfo handleInvalidApprovalStatusException(WebRequest request, Exception ex) {
+        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+    }
 
     private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, WebRequest request, Exception ex) {
         final String path = request.getDescription(false);
