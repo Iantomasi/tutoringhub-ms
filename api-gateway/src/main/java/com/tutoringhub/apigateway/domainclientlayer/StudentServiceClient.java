@@ -11,9 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class StudentServiceClient {
 
 
     public List<StudentResponseModel> getAllStudentsAggregate(){
-        log.debug("3. Received in Api-Gateway Student Service Client getAllStudentsAggregate");
+       // log.debug("3. Received in Api-Gateway Student Service Client getAllStudentsAggregate");
         try{
             String url= STUDENT_SERVICE_BASE_URL;
 
@@ -51,7 +53,7 @@ public class StudentServiceClient {
                     .getForObject(url, StudentResponseModel[].class);
             return Arrays.asList(studentResponseArray);
         }catch (HttpClientErrorException ex){
-            log.debug("5. Received in Api-Gateway Student Service Client getAllStudentsAggregate with exception: " + ex.getMessage());
+           // log.debug("5. Received in Api-Gateway Student Service Client getAllStudentsAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -63,9 +65,9 @@ public class StudentServiceClient {
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
             studentResponseModel = restTemplate
                     .getForObject(url, StudentResponseModel.class);
-            log.debug("5. Received in API-Gateway Student Service Client getStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
+          //  log.debug("5. Received in API-Gateway Student Service Client getStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
         }catch(HttpClientErrorException ex) {
-            log.debug("5.");
+      //      log.debug("5.");
             throw handleHttpClientException(ex);
         }
         return studentResponseModel;
@@ -74,62 +76,54 @@ public class StudentServiceClient {
 
     public StudentResponseModel addStudentAggregate(StudentRequestModel studentRequestModel) {
 
-        log.debug("3. Received in Api-Gateway Student Service Client addStudentAggregate");
+     //   log.debug("3. Received in Api-Gateway Student Service Client addStudentAggregate");
 
         try {
 
             String url = STUDENT_SERVICE_BASE_URL;
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<StudentRequestModel> requestModelHttpEntity = new HttpEntity<>(studentRequestModel, headers);
-
-            StudentResponseModel studentResponseModel = restTemplate.postForObject(url, requestModelHttpEntity, StudentResponseModel.class);
+            StudentResponseModel studentResponseModel = restTemplate.postForObject(url, studentRequestModel, StudentResponseModel.class);
             return studentResponseModel;
         } catch (HttpClientErrorException ex) {
 
-            log.debug("5. Received in Api-Gateway Student Service Client addStudentAggregate with exception: " + ex.getMessage());
+        //    log.debug("5. Received in Api-Gateway Student Service Client addStudentAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
 
     public StudentResponseModel updateStudentAggregate(StudentRequestModel studentRequestModel, String studentId) {
 
-        log.debug("3. Received in Api-Gateway Student Service Client updateStudentAggregate with studentId: " + studentId);
+    //    log.debug("3. Received in Api-Gateway Student Service Client updateStudentAggregate with studentId: " + studentId);
 
 
         try {
 
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<StudentRequestModel> requestModelHttpEntity = new HttpEntity<>(studentRequestModel, headers);
-
-            restTemplate.put(url, requestModelHttpEntity, studentId);
+            restTemplate.execute(url, HttpMethod.PUT, requestCallback(studentRequestModel), clientHttpResponse -> null);
 
             StudentResponseModel studentResponseModel = restTemplate
                     .getForObject(url, StudentResponseModel.class);
-            log.debug("5. Received in Api-Gateway Student Service Client updateStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
+        //    log.debug("5. Received in Api-Gateway Student Service Client updateStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
             return studentResponseModel;
         } catch (HttpClientErrorException ex) {
-            log.debug("5. Received in Api-Gateway Student Service Client updateStudentAggregate with exception: " + ex.getMessage());
+        //    log.debug("5. Received in Api-Gateway Student Service Client updateStudentAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
 
     public void removeStudentAggregate(String studentId){
 
-        log.debug("3. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
+    //    log.debug("3. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
 
         try{
 
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
-            restTemplate.delete(url);
-            log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
+            restTemplate.execute(url, HttpMethod.DELETE, null, null);
+         //   log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
         }catch (HttpClientErrorException ex){
 
-            log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with exception: " + ex.getMessage());
+           // log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -153,6 +147,16 @@ public class StudentServiceClient {
             return ioex.getMessage();
         }
     }
+
+    private RequestCallback requestCallback(final StudentRequestModel studentRequestModel) {
+        return clientHttpRequest -> {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(clientHttpRequest.getBody(), studentRequestModel);
+            clientHttpRequest.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            clientHttpRequest.getHeaders().add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        };
+    }
+
 }
 
 

@@ -27,7 +27,7 @@ public class StudentController {
 
     @GetMapping(produces = "application/json")
     ResponseEntity<List<StudentResponseModel>> getAllStudentsAggregate(){
-        log.debug("1. Received in API-Gateway Student Controller getAllStudentsAggregate");
+       // log.debug("1. Received in API-Gateway Student Controller getAllStudentsAggregate");
         return ResponseEntity.ok().body(studentService.getAllStudentsAggregate());
     }
 
@@ -36,13 +36,13 @@ public class StudentController {
             produces = "application/json"
     )
     ResponseEntity<StudentResponseModel> getStudentAggregate(@PathVariable String studentId){
-        log.debug("1. Received in Api-Gateway student controller getStudentAggregate with studentId: " + studentId);
+      //  log.debug("1. Received in Api-Gateway student controller getStudentAggregate with studentId: " + studentId);
         return ResponseEntity.ok().body(studentService.getStudentAggregate(studentId));
     }
 
     @PostMapping()
     ResponseEntity<StudentResponseModel> addStudentAggregate(@RequestBody StudentRequestModel studentRequestModel){
-        log.debug("1. Received in Api-Gateway Student Controller addStudentAggregate");
+    //    log.debug("1. Received in Api-Gateway Student Controller addStudentAggregate");
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.addStudentAggregate(studentRequestModel));
     }
 
@@ -54,7 +54,7 @@ public class StudentController {
         if(studentId.length() != UUID_SIZE){
             throw new NotFoundException("No student assigned to this studentId");
         }
-        log.debug("1. Received in Api-Gateway Student Controller updateStudentAggregate with studentId: " + studentId);
+    //    log.debug("1. Received in Api-Gateway Student Controller updateStudentAggregate with studentId: " + studentId);
         return ResponseEntity.ok().body(studentService.updateStudentAggregate(studentRequestModel, studentId));
     }
 
@@ -66,7 +66,7 @@ public class StudentController {
         if(studentId.length() != UUID_SIZE){
             throw new NotFoundException("No student assigned to this studentId");
         }
-        log.debug("1. Received in Api-Gateway Student Controller removeStudentAggregate with studentId: " + studentId);
+     //   log.debug("1. Received in Api-Gateway Student Controller removeStudentAggregate with studentId: " + studentId);
 
         studentService.removeStudentAggregate(studentId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

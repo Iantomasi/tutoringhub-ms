@@ -2,7 +2,7 @@
 !includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
 title System Context Diagram for Tutoringhub System
 Person(employee, "Employee", "A front office employee of the school")
-System(system, "Tutoringhub", "Allows school employees to manage tutoring lessons and supervisor confirmations and supervisor confirmations")
+System(system, "Tutoringhub", "Allows school employees to manage tutoring lessons and supervisor confirmations")
 Rel(employee, system, "Tracks tutoring lessons using")
 'SHOW_LEGEND()
 @enduml

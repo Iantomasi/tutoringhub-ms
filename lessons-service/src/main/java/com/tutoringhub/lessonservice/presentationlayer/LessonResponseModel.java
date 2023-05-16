@@ -1,10 +1,8 @@
 package com.tutoringhub.lessonservice.presentationlayer;
 
 import com.tutoringhub.lessonservice.datalayer.LessonStatus;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
+
 
 @Value
 @Builder

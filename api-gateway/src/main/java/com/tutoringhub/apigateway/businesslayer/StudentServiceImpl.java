@@ -22,31 +22,31 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<StudentResponseModel> getAllStudentsAggregate() {
-        log.debug("2. Received in Api-Gateway Student Service Impl getAllStudentsAggregate");
+        //log.debug("2. Received in Api-Gateway Student Service Impl getAllStudentsAggregate");
         return studentServiceClient.getAllStudentsAggregate();
     }
 
     @Override
     public StudentResponseModel getStudentAggregate(String studentId) {
-        log.debug("2. Received in Api-Gateway Lesson Service Impl getStudentAggregate");
+      //  log.debug("2. Received in Api-Gateway Lesson Service Impl getStudentAggregate");
         return studentServiceClient.getStudentAggregate(studentId);
     }
 
     @Override
     public StudentResponseModel addStudentAggregate(StudentRequestModel studentRequestModel) {
-        log.debug("2. Received in Api-Gateway Lesson Service Impl addStudentAggregate");
+       // log.debug("2. Received in Api-Gateway Lesson Service Impl addStudentAggregate");
         return studentServiceClient.addStudentAggregate(studentRequestModel);
     }
 
     @Override
     public StudentResponseModel updateStudentAggregate(StudentRequestModel studentRequestModel, String studentId) {
-        log.debug("2. Received in Api-Gateway Lesson Service Impl updateStudentAggregate");
+       // log.debug("2. Received in Api-Gateway Lesson Service Impl updateStudentAggregate");
         return studentServiceClient.updateStudentAggregate(studentRequestModel, studentId);
     }
 
     @Override
     public void removeStudentAggregate(String studentId) {
-        log.debug("2. Received in Api-Gateway Lesson Service Impl removeStudentAggregate");
+        // log.debug("2. Received in Api-Gateway Lesson Service Impl removeStudentAggregate");
         studentServiceClient.removeStudentAggregate(studentId);
     }
 }

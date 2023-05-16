@@ -18,6 +18,9 @@ app:
   tutors-service:
     host: localhost
     port: 7003
+  supervisorconfirmations-service:
+    host: localhost
+    port: 7004
 
 ---
 
@@ -34,4 +37,7 @@ app:
     port: 8080
   tutors-service:
     host: tutors-service
+    port: 8080
+  supervisorconfirmations-service:
+    host: supervisorconfirmations-service
     port: 8080

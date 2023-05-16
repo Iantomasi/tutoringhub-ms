@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class LessonServiceClient {
     }
 
     public List<LessonResponseModel> getAllLessonsAggregate(){
-        log.debug("3. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate");
+        //log.debug("3. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate");
         try{
             String url= LESSON_SERVICE_BASE_URL;
 
@@ -51,7 +53,7 @@ public class LessonServiceClient {
                     .getForObject(url, LessonResponseModel[].class);
             return Arrays.asList(lessonResponseArray);
         }catch (HttpClientErrorException ex){
-            log.debug("5. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate with exception: " + ex.getMessage());
+           // log.debug("5. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -63,9 +65,9 @@ public class LessonServiceClient {
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
             lessonResponseModel = restTemplate
                     .getForObject(url, LessonResponseModel.class);
-            log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
+           // log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
         }catch(HttpClientErrorException ex) {
-            log.debug("5.");
+           // log.debug("5.");
             throw  handleHttpClientException(ex);
         }
          return lessonResponseModel;
@@ -74,62 +76,53 @@ public class LessonServiceClient {
 
     public LessonResponseModel addLessonAggregate(LessonRequestModel lessonRequestModel) {
 
-        log.debug("3. Received in Api-Gateway Lesson Service Client addLessonAggregate");
+       // log.debug("3. Received in Api-Gateway Lesson Service Client addLessonAggregate");
 
         try {
 
             String url = LESSON_SERVICE_BASE_URL;
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<LessonRequestModel> requestModelHttpEntity = new HttpEntity<>(lessonRequestModel, headers);
-
-            LessonResponseModel lessonResponseModel = restTemplate.postForObject(url, requestModelHttpEntity, LessonResponseModel.class);
+            LessonResponseModel lessonResponseModel = restTemplate.postForObject(url, lessonRequestModel, LessonResponseModel.class);
             return lessonResponseModel;
+
         } catch (HttpClientErrorException ex) {
 
-            log.debug("5. Received in Api-Gateway Lesson Service Client addLessonAggregate with exception: " + ex.getMessage());
+          //  log.debug("5. Received in Api-Gateway Lesson Service Client addLessonAggregate with exception: " + ex.getMessage());
+
             throw handleHttpClientException(ex);
         }
     }
 
     public LessonResponseModel updateLessonAggregate(LessonRequestModel lessonRequestModel, String lessonId) {
 
-        log.debug("3. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonId: " + lessonId);
+       // log.debug("3. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonId: " + lessonId);
 
 
         try {
 
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<LessonRequestModel> requestModelHttpEntity = new HttpEntity<>(lessonRequestModel, headers);
-
-            restTemplate.put(url, requestModelHttpEntity, lessonId);
+            restTemplate.execute(url, HttpMethod.PUT, requestCallback(lessonRequestModel), clientHttpResponse -> null);
 
             LessonResponseModel lessonResponseModel = restTemplate
                     .getForObject(url, LessonResponseModel.class);
-            log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
+            //log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
             return lessonResponseModel;
         } catch (HttpClientErrorException ex) {
-            log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with exception: " + ex.getMessage());
+          //  log.debug("5. Received in Api-Gateway Lesson Service Client updateLessonAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
 
     public void removeLessonAggregate(String lessonId){
 
-        log.debug("3. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
+        //log.debug("3. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
 
         try{
-
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
-            restTemplate.delete(url);
-            log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
+            restTemplate.execute(url, HttpMethod.DELETE, null, null);
+          //  log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
         }catch (HttpClientErrorException ex){
-
-            log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with exception: " + ex.getMessage());
+           // log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
@@ -153,4 +146,15 @@ public class LessonServiceClient {
             return ioex.getMessage();
         }
     }
+
+    private RequestCallback requestCallback(final LessonRequestModel lessonRequestModel) {
+        return clientHttpRequest -> {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(clientHttpRequest.getBody(), lessonRequestModel);
+            clientHttpRequest.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            clientHttpRequest.getHeaders().add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        };
+    }
+
+
 }

@@ -23,7 +23,7 @@ public class TutorController {
 
     @GetMapping(produces = "application/json")
     ResponseEntity<List<TutorResponseModel>> getAllTutorsAggregate(){
-        log.debug("1. Received in API-Gateway Tutor Controller getAllTutorsAggregate");
+     //   log.debug("1. Received in API-Gateway Tutor Controller getAllTutorsAggregate");
         return ResponseEntity.ok().body(tutorService.getAllTutorsAggregate());
     }
 
@@ -36,14 +36,14 @@ public class TutorController {
             throw new NotFoundException("No tutor assigned to this tutorId");
         }
 
-        log.debug("1. Received in Api-Gateway Tutor Controller getTutorAggregate with tutorId: " + tutorId);
+      //  log.debug("1. Received in Api-Gateway Tutor Controller getTutorAggregate with tutorId: " + tutorId);
         return ResponseEntity.ok().body(tutorService.getTutorAggregate(tutorId));
     }
 
     @PostMapping()
     ResponseEntity<TutorResponseModel> addTutorAggregate(@RequestBody TutorRequestModel tutorRequestModel){
 
-        log.debug("1. Received in Api-Gateway Tutor Controller addTutorAggregate");
+     //   log.debug("1. Received in Api-Gateway Tutor Controller addTutorAggregate");
         return ResponseEntity.status(HttpStatus.CREATED).body(tutorService.addTutorAggregate(tutorRequestModel));
     }
 
@@ -55,7 +55,7 @@ public class TutorController {
         if(tutorId.length() != UUID_SIZE){
             throw new NotFoundException("No tutor assigned to this tutorId");
         }
-        log.debug("1. Received in Api-Gateway Tutor Controller updateTutorAggregate with tutorId: " + tutorId);
+    //    log.debug("1. Received in Api-Gateway Tutor Controller updateTutorAggregate with tutorId: " + tutorId);
         return ResponseEntity.ok().body(tutorService.updateTutorAggregate(tutorRequestModel, tutorId));
     }
 
@@ -68,7 +68,7 @@ public class TutorController {
         if(tutorId.length() != UUID_SIZE){
             throw new NotFoundException("No tutor assigned to this tutorId");
         }
-        log.debug("1. Received in Api-Gateway Tutor Controller removeTutorAggregate with tutorId: " + tutorId);
+     //   log.debug("1. Received in Api-Gateway Tutor Controller removeTutorAggregate with tutorId: " + tutorId);
 
         tutorService.removeTutorAggregate(tutorId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

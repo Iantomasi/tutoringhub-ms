@@ -1,10 +1,7 @@
 package com.tutoringhub.apigateway.utils;
 
 
-import com.tutoringhub.apigateway.utils.exceptions.DuplicateEmailException;
-import com.tutoringhub.apigateway.utils.exceptions.InadequateGpaException;
-import com.tutoringhub.apigateway.utils.exceptions.NotFoundException;
-import com.tutoringhub.apigateway.utils.exceptions.UnregisteredLessonSubjectException;
+import com.tutoringhub.apigateway.utils.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +24,7 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(UnregisteredLessonSubjectException.class)
-    public HttpErrorInfo handleDuplicateLessonDateDurationClassRoomException(WebRequest request, Exception ex) {
+    public HttpErrorInfo handleUnregisteredLessonSubjectException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 
@@ -41,7 +38,19 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(InadequateGpaException.class)
-    public HttpErrorInfo handleDuplicateVinException(WebRequest request, Exception ex) {
+    public HttpErrorInfo handleInadequateGpaException(WebRequest request, Exception ex) {
+        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+    }
+
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(InvalidInputException.class)
+    public HttpErrorInfo handleInvalidInputException(WebRequest request, Exception ex) {
+        return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+    }
+
+    @ResponseStatus(UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(InsufficientCommentException.class)
+    public HttpErrorInfo handleInsufficientCommentException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 

@@ -20,6 +20,17 @@ public class ClientSupervisorConfirmationController {
 
     private final SupervisorConfirmationService supervisorConfirmationService;
 
+
+    @GetMapping
+    ResponseEntity<List<SupervisorConfirmationResponseModel>> getStudentExtraCreditReport(@PathVariable String studentId) {
+        return ResponseEntity.ok().body(supervisorConfirmationService.getStudentExtraCreditReport(studentId));
+    }
+
+    @GetMapping("/{supervisorConfirmationId}")
+    ResponseEntity<SupervisorConfirmationResponseModel> getSupervisorConfirmationInStudentExtraCreditReport(@PathVariable String studentId, @PathVariable String supervisorConfirmationId){
+        return ResponseEntity.ok().body(supervisorConfirmationService.getSupervisorConfirmationByIdInStudentExtraCreditReport(studentId, supervisorConfirmationId));
+    }
+
     @PostMapping()
     ResponseEntity<SupervisorConfirmationResponseModel>processClientSupervisorConfirmation(
             @RequestBody SupervisorConfirmationRequestModel supervisorConfirmationRequestModel,
@@ -27,13 +38,6 @@ public class ClientSupervisorConfirmationController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(supervisorConfirmationService.processStudentExtraCreditSupervisorConfirmation(supervisorConfirmationRequestModel, studentId));
     }
-
-    @GetMapping
-    ResponseEntity<List<SupervisorConfirmationResponseModel>> getStudentExtraCreditReport(@PathVariable String studentId) {
-
-        return ResponseEntity.ok().body(supervisorConfirmationService.getStudentExtraCreditReport(studentId));
-    }
-
 
     @PutMapping("/{supervisorConfirmationId}")
     ResponseEntity<SupervisorConfirmationResponseModel> updateClientSupervisorConfirmation(
@@ -45,5 +49,12 @@ public class ClientSupervisorConfirmationController {
 
         return ResponseEntity.ok(updatedSupervisorConfirmation);
     }
+
+    @DeleteMapping("/{supervisorConfirmationId}")
+    ResponseEntity<Void> removeSupervisorConfirmationInStudentExtraCreditReport(@PathVariable String studentId, @PathVariable String supervisorConfirmationId){
+        supervisorConfirmationService.removeStudentSupervisorConfirmation(studentId, supervisorConfirmationId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
 

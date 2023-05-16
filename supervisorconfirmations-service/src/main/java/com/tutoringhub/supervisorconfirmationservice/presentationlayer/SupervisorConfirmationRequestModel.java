@@ -1,6 +1,7 @@
 package com.tutoringhub.supervisorconfirmationservice.presentationlayer;
 
 import com.tutoringhub.supervisorconfirmationservice.datalayer.Approval;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;

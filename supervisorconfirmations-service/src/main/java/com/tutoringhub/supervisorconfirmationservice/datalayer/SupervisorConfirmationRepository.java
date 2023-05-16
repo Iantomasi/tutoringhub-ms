@@ -9,4 +9,6 @@ public interface SupervisorConfirmationRepository extends MongoRepository<Superv
 
     SupervisorConfirmation findSupervisorConfirmationBySupervisorConfirmationIdentifier_supervisorConfirmationId(String supervisorConfirmationId);
     List<SupervisorConfirmation> findAllSupervisorConfirmationsByStudentIdentifier_studentId(String studentId);
+    SupervisorConfirmation findSupervisorConfirmationByStudentIdentifier_studentId_AndSupervisorConfirmationIdentifier_supervisorConfirmationId(String studentId, String supervisorConfirmationId);
+
 }

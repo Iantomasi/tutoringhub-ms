@@ -1,11 +1,10 @@
 package com.tutoringhub.apigateway.presentationlayer.tutor;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
-//@Value
-//@Builder
+@EqualsAndHashCode(callSuper=false)
 @Data
+@Builder
 @AllArgsConstructor
 public class TutorRequestModel {
 

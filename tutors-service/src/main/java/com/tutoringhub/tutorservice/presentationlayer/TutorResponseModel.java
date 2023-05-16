@@ -3,10 +3,8 @@ package com.tutoringhub.tutorservice.presentationlayer;
 
 import com.tutoringhub.tutorservice.datalayer.Experience;
 import com.tutoringhub.tutorservice.datalayer.Specialty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
+
 
 @Value
 @Builder

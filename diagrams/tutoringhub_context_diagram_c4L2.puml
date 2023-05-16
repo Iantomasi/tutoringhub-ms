@@ -22,17 +22,17 @@ Container(webPage, "Single-Page Application", "REACT JS", "GUI interface compose
 
 Container(api_gateway, "API Gateway", "Spring boot: Java", "Handles HTTP requests and redirects them accordingly to the desired microservice.", $tags="microservice")
 
-Container(lessons_service, "Lessons-Service","Spring boot: Java","Provides CRUD functionalities pertaining to lesson",$tags="microservice")
+Container(lessons_service, "Lessons-Service","Spring boot: Java","Provides functionality for managing lesson",$tags="microservice")
 ContainerDb(lessons_db, "Lessons-db","MySQL","Stores lesson information", $tags="database")
 
-Container(students_service, "Students-Service","Spring boot: Java","Provides CRUD functionalities pertaining to student", $tags="microservice")
+Container(students_service, "Students-Service","Spring boot: Java","Provides functionality for managing student", $tags="microservice")
 ContainerDb(students_db, "Students-db","MySQL","Stores student information", $tags="database")
 
-Container(tutors_service, "Tutors-Service","Spring boot: Java","Provides CRUD functionalities pertaining to tutor", $tags="microservice")
+Container(tutors_service, "Tutors-Service","Spring boot: Java","Provides functionality for managing tutor", $tags="microservice")
 ContainerDb(tutors_db, "Tutors-db","MySQL","Stores tutor information", $tags="database")
 
-Container(supervisor_confirmation_service, "SupervisorConfirmation-Service","Spring boot: Java","Provides CRUD functionalities pertaining to supervisor confirmation",$tags="microservice")
-ContainerDb(supervisor_confirmation_db, "SupervisorConfirmation-db","MySQL","Stores supervisor confirmation information", $tags="database")
+Container(supervisor_confirmation_service, "SupervisorConfirmation-Service","Spring boot: Java","Provides functionality for managing supervisor confirmation",$tags="microservice")
+ContainerDb(supervisor_confirmation_db, "SupervisorConfirmation-db","MongoDB","Stores supervisor confirmation information", $tags="database")
 
 }
 
@@ -55,15 +55,11 @@ Rel(students_service, students_db,"Reads from and Writes to","JDBC", $tags="data
 Rel(tutors_service,tutors_db,"Reads from and Writes to","JDBC", $tags="database_rel")
 
 
-
-BiRel(lessons_service,students_service,"Sends request to/Receives response from","JSON/HTTPS", $tags="microservice_rel")
-BiRel(lessons_service,tutors_service,"Sends request to/Receives response from","JSON/HTTPS", $tags="microservice_rel")
 Rel(lessons_service,lessons_db,"Reads from and Writes to","JDBC", $tags="database_rel")
 
 Rel(supervisor_confirmation_service, students_service, "Sends request to/Receives response from", "JSON/HTTPS", $tags="microservice_rel")
 Rel(supervisor_confirmation_service, tutors_service, "Sends request to/Receives response from", "JSON/HTTPS", $tags="microservice_rel")
-
-
+Rel(supervisor_confirmation_service, lessons_service, "Sends request to/Receives response from", "JSON/HTTPS", $tags="microservice_rel")
 
 Rel(supervisor_confirmation_service, supervisor_confirmation_db,"Reads from and Writes to","JDBC", $tags="database_rel")
 
