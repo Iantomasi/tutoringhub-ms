@@ -16,7 +16,7 @@ class UnregisteredLessonSubjectExceptionTest {
 
     @Test
     public void testMessageConstructor() {
-        String errorMessage = "Duplicate ID found!";
+        String errorMessage = "Unregistered lesson subject. List of subjects: English - French - Math - Science";
         UnregisteredLessonSubjectException exception = new UnregisteredLessonSubjectException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
         assertNull(exception.getCause());
@@ -30,8 +30,8 @@ class UnregisteredLessonSubjectExceptionTest {
     }
     @Test
     public void testMessageAndCauseConstructor() {
-        String errorMessage = "Duplicate ID found!";
-        Throwable cause = new IllegalArgumentException("Invalid ID");
+        String errorMessage = "Unregistered lesson subject. List of subjects: English - French - Math - Science";
+        Throwable cause = new IllegalArgumentException("Invalid Id");
         UnregisteredLessonSubjectException exception = new UnregisteredLessonSubjectException(errorMessage, cause);
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());

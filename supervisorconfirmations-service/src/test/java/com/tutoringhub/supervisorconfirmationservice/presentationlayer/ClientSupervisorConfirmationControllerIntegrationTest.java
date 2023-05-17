@@ -1,0 +1,5 @@
+package com.tutoringhub.supervisorconfirmationservice.presentationlayer;
+
+class ClientSupervisorConfirmationControllerIntegrationTest {
+
+}

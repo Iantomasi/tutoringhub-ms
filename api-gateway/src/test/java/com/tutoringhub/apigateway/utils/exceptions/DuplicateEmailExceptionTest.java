@@ -16,7 +16,7 @@ class DuplicateEmailExceptionTest {
 
     @Test
     public void testMessageConstructor() {
-        String errorMessage = "Duplicate ID found!";
+        String errorMessage = "Duplicate Email";
         DuplicateEmailException exception = new DuplicateEmailException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
         assertNull(exception.getCause());
@@ -30,8 +30,8 @@ class DuplicateEmailExceptionTest {
     }
     @Test
     public void testMessageAndCauseConstructor() {
-        String errorMessage = "Duplicate ID found!";
-        Throwable cause = new IllegalArgumentException("Invalid ID");
+        String errorMessage = "Duplicate Email";
+        Throwable cause = new IllegalArgumentException("Invalid Id");
         DuplicateEmailException exception = new DuplicateEmailException(errorMessage, cause);
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());

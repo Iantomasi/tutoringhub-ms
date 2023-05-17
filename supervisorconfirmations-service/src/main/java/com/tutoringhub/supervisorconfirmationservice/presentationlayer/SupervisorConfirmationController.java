@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("api/v1/supervisorconfirmations")
 @RequiredArgsConstructor
 public class SupervisorConfirmationController {
-
+/*
     private final SupervisorConfirmationService supervisorConfirmationService;
 
     @GetMapping
@@ -34,4 +34,6 @@ public class SupervisorConfirmationController {
         supervisorConfirmationService.removeSupervisorConfirmation(supervisorConfirmationId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+ */
 }

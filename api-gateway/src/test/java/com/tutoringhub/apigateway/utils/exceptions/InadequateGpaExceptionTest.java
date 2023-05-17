@@ -16,7 +16,7 @@ class InadequateGpaExceptionTest {
 
     @Test
     public void testMessageConstructor() {
-        String errorMessage = "Duplicate ID found!";
+        String errorMessage = "Inadequate Gpa, must be over 3.5 to tutor";
         InadequateGpaException exception = new InadequateGpaException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
         assertNull(exception.getCause());
@@ -30,8 +30,8 @@ class InadequateGpaExceptionTest {
     }
     @Test
     public void testMessageAndCauseConstructor() {
-        String errorMessage = "Duplicate ID found!";
-        Throwable cause = new IllegalArgumentException("Invalid ID");
+        String errorMessage = "Inadequate Gpa, must be over 3.5 to tutor";
+        Throwable cause = new IllegalArgumentException("Invalid Id");
         InadequateGpaException exception = new InadequateGpaException(errorMessage, cause);
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());

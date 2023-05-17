@@ -52,6 +52,7 @@ public class StudentServiceClient {
             StudentResponseModel[] studentResponseArray = restTemplate
                     .getForObject(url, StudentResponseModel[].class);
             return Arrays.asList(studentResponseArray);
+
         }catch (HttpClientErrorException ex){
            // log.debug("5. Received in Api-Gateway Student Service Client getAllStudentsAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
@@ -94,14 +95,10 @@ public class StudentServiceClient {
     public StudentResponseModel updateStudentAggregate(StudentRequestModel studentRequestModel, String studentId) {
 
     //    log.debug("3. Received in Api-Gateway Student Service Client updateStudentAggregate with studentId: " + studentId);
-
-
         try {
-
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
 
-            restTemplate.execute(url, HttpMethod.PUT, requestCallback(studentRequestModel), clientHttpResponse -> null);
-
+            restTemplate.put(url, studentRequestModel, studentId);
             StudentResponseModel studentResponseModel = restTemplate
                     .getForObject(url, StudentResponseModel.class);
         //    log.debug("5. Received in Api-Gateway Student Service Client updateStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
@@ -119,10 +116,9 @@ public class StudentServiceClient {
         try{
 
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
-            restTemplate.execute(url, HttpMethod.DELETE, null, null);
-         //   log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
+            restTemplate.delete(url);
+            //   log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with studentId: " + studentId);
         }catch (HttpClientErrorException ex){
-
            // log.debug("5. Received in Api-Gateway Student Service Client removeStudentAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
@@ -147,16 +143,6 @@ public class StudentServiceClient {
             return ioex.getMessage();
         }
     }
-
-    private RequestCallback requestCallback(final StudentRequestModel studentRequestModel) {
-        return clientHttpRequest -> {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(clientHttpRequest.getBody(), studentRequestModel);
-            clientHttpRequest.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            clientHttpRequest.getHeaders().add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        };
-    }
-
 }
 
 

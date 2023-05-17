@@ -40,8 +40,6 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class TutorServiceClientTest {
 
-
-
     @MockBean
     private RestTemplate restTemplate;
 
@@ -49,7 +47,7 @@ class TutorServiceClientTest {
     private TutorServiceClient tutorServiceClient;
 
     private String tutorId = "c3540a89-cb47-4c96-888e-ff96708ab1c20";
-    private String baseUrl = "http://localhost:8080/api/v1/students";
+    private String baseUrl = "http://localhost:8080/api/v1/tutors";
 
 
     @Autowired
@@ -171,24 +169,18 @@ class TutorServiceClientTest {
     }
 
 
-
-
     @Test
     public void updateTutor() {
         // Given
-        String studentId = "2032334";
+        String tutorId = "2032334";
 
         String url = baseUrl + "/" + tutorId;
 
         TutorRequestModel tutorRequestModel = new TutorRequestModel("Tuchel", "22", "tuchy@gmail.com", 3.6, Specialty.Math, Experience.Junior);
 
-        when(restTemplate.execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any())).thenReturn(null);
-
-        // When
         tutorServiceClient.updateTutorAggregate(tutorRequestModel, tutorId);
 
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any());
+        verify(restTemplate).put(eq(url), eq(tutorRequestModel), eq(tutorId));
     }
 
     @Test
@@ -197,52 +189,9 @@ class TutorServiceClientTest {
         String tutorId = "2032334";
         String url = baseUrl + "/" + tutorId;
 
-        when(restTemplate.execute(eq(url), eq(HttpMethod.DELETE), any(),  any())).thenReturn(null);
-
-        // When
         tutorServiceClient.removeTutorAggregate(tutorId);
 
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.DELETE), any(),  any());
+        verify(restTemplate).delete(url);
     }
-
-    @Test
-    public void callbackMethodTest() throws Exception {
-        // Arrange
-        TutorRequestModel tutorRequestModel = TutorRequestModel.builder()
-                .tutorName("Spalletti")
-                .tutorAge("24")
-                .tutorEmail("forzamilan@gmail.com")
-                .tutorGpa(3.9)
-                .specialty(Specialty.English)
-                .experience(Experience.Junior)
-                .build();
-
-        // Mocking ClientHttpRequest
-        ClientHttpRequest clientHttpRequest = mock(ClientHttpRequest.class);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        when(clientHttpRequest.getBody()).thenReturn(outputStream);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        when(clientHttpRequest.getHeaders()).thenReturn(httpHeaders);
-
-        // Access private method via reflection
-        Method requestCallbackMethod = TutorServiceClient.class.getDeclaredMethod("requestCallback", TutorRequestModel.class);
-        requestCallbackMethod.setAccessible(true);
-
-        // Act
-        RequestCallback requestCallback = (RequestCallback) requestCallbackMethod.invoke(tutorServiceClient, tutorRequestModel);
-        requestCallback.doWithRequest(clientHttpRequest);
-
-        // Assert
-        ObjectMapper mapper = new ObjectMapper();
-        String expectedBody = mapper.writeValueAsString(tutorRequestModel);
-        String actualBody = outputStream.toString();
-        assertEquals(expectedBody, actualBody);
-
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, httpHeaders.getContentType().toString());
-        assertTrue(httpHeaders.getAccept().contains(MediaType.APPLICATION_JSON));
-    }
-
-
 
 }

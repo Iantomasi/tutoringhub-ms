@@ -1,6 +1,8 @@
-package com.tutoringhub.apigateway.utils;
+package com.tutoringhub.supervisorconfirmationservice.utils;
 
-import com.tutoringhub.apigateway.utils.exceptions.*;
+import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.InsufficientCommentException;
+import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.InvalidInputException;
+import com.tutoringhub.supervisorconfirmationservice.utils.Exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.WebRequest;
@@ -10,7 +12,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class GlobalControllerExceptionHandlerTest {
-
 
     private final GlobalControllerExceptionHandler handler = new GlobalControllerExceptionHandler();
 
@@ -46,31 +47,7 @@ class GlobalControllerExceptionHandlerTest {
         assertEquals("Invalid input", errorInfo.getMessage());
     }
 
-    @Test
-    public void testHandleDuplicateEmailException() {
-        WebRequest request = mock(WebRequest.class);
-        when(request.getDescription(false)).thenReturn("test/path");
-        DuplicateEmailException ex = new DuplicateEmailException("Duplicate Email");
 
-        HttpErrorInfo errorInfo = handler.handleDuplicateEmailException(request, ex);
-
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, errorInfo.getHttpStatus());
-        assertEquals("test/path", errorInfo.getPath());
-        assertEquals("Duplicate Email", errorInfo.getMessage());
-    }
-
-    @Test
-    public void testHandleInadequateGpaException() {
-        WebRequest request = mock(WebRequest.class);
-        when(request.getDescription(false)).thenReturn("test/path");
-        InadequateGpaException ex = new InadequateGpaException("Inadequate Gpa, must be over 3.5 to tutor");
-
-        HttpErrorInfo errorInfo = handler.handleInadequateGpaException(request, ex);
-
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, errorInfo.getHttpStatus());
-        assertEquals("test/path", errorInfo.getPath());
-        assertEquals("Inadequate Gpa, must be over 3.5 to tutor", errorInfo.getMessage());
-    }
     @Test
     public void testInsufficientCommentException() {
         WebRequest request = mock(WebRequest.class);
@@ -83,20 +60,6 @@ class GlobalControllerExceptionHandlerTest {
         assertEquals("test/path", errorInfo.getPath());
         assertEquals("Insufficient comment, must be greater than 5 characters", errorInfo.getMessage());
     }
-
-    @Test
-    public void testUnregisteredLessonSubjectException() {
-        WebRequest request = mock(WebRequest.class);
-        when(request.getDescription(false)).thenReturn("test/path");
-        UnregisteredLessonSubjectException ex = new UnregisteredLessonSubjectException("Unregistered lesson subject. List of subjects: English - French - Math - Science");
-
-        HttpErrorInfo errorInfo = handler.handleUnregisteredLessonSubjectException(request, ex);
-
-        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, errorInfo.getHttpStatus());
-        assertEquals("test/path", errorInfo.getPath());
-        assertEquals("Unregistered lesson subject. List of subjects: English - French - Math - Science", errorInfo.getMessage());
-    }
-
 
 
 }

@@ -1,38 +1,37 @@
-package com.tutoringhub.apigateway.utils.exceptions;
+package com.tutoringhub.supervisorconfirmationservice.utils.Exceptions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InvalidInputExceptionTest {
-
+class NotFoundExceptionTest {
     @Test
     public void testDefaultConstructor() {
-        InvalidInputException exception = new InvalidInputException();
+        NotFoundException exception = new NotFoundException();
         assertNull(exception.getMessage());
         assertNull(exception.getCause());
     }
 
     @Test
     public void testMessageConstructor() {
-        String errorMessage = "Invalid input";
-        InvalidInputException exception = new InvalidInputException(errorMessage);
+        String errorMessage = "Not found";
+        NotFoundException exception = new NotFoundException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
         assertNull(exception.getCause());
     }
     @Test
     public void testCauseConstructor() {
         Throwable cause = new Throwable("Test cause");
-        InvalidInputException exception = new InvalidInputException(cause);
+        NotFoundException exception = new NotFoundException(cause);
         Assertions.assertEquals("java.lang.Throwable: Test cause", exception.getMessage());
         assertSame(cause, exception.getCause());
     }
     @Test
     public void testMessageAndCauseConstructor() {
-        String errorMessage = "Invalid input";
-        Throwable cause = new IllegalArgumentException("Invalid ID");
-        InvalidInputException exception = new InvalidInputException(errorMessage, cause);
+        String errorMessage = "Not found";
+        Throwable cause = new IllegalArgumentException("Invalid Id");
+        NotFoundException exception = new NotFoundException(errorMessage, cause);
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());
     }

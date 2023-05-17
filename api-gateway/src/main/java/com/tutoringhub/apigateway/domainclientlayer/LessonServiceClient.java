@@ -52,25 +52,25 @@ public class LessonServiceClient {
             LessonResponseModel[] lessonResponseArray = restTemplate
                     .getForObject(url, LessonResponseModel[].class);
             return Arrays.asList(lessonResponseArray);
+
         }catch (HttpClientErrorException ex){
-           // log.debug("5. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate with exception: " + ex.getMessage());
+            // log.debug("5. Received in Api-Gateway Lesson Service Client getAllLessonsAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
     }
 
     public LessonResponseModel getLessonAggregate(String lessonId){
 
-        LessonResponseModel lessonResponseModel;
         try {
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
-            lessonResponseModel = restTemplate
+            LessonResponseModel lessonResponseModel = restTemplate
                     .getForObject(url, LessonResponseModel.class);
-           // log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
-        }catch(HttpClientErrorException ex) {
-           // log.debug("5.");
+            // log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
+            return lessonResponseModel;
+        }
+        catch(HttpClientErrorException ex) {
             throw  handleHttpClientException(ex);
         }
-         return lessonResponseModel;
     }
 
 
@@ -85,9 +85,6 @@ public class LessonServiceClient {
             return lessonResponseModel;
 
         } catch (HttpClientErrorException ex) {
-
-          //  log.debug("5. Received in Api-Gateway Lesson Service Client addLessonAggregate with exception: " + ex.getMessage());
-
             throw handleHttpClientException(ex);
         }
     }
@@ -96,12 +93,11 @@ public class LessonServiceClient {
 
        // log.debug("3. Received in Api-Gateway Lesson Service Client updateLessonAggregate with lessonId: " + lessonId);
 
-
         try {
 
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
 
-            restTemplate.execute(url, HttpMethod.PUT, requestCallback(lessonRequestModel), clientHttpResponse -> null);
+            restTemplate.put(url, lessonRequestModel, lessonId);
 
             LessonResponseModel lessonResponseModel = restTemplate
                     .getForObject(url, LessonResponseModel.class);
@@ -116,11 +112,10 @@ public class LessonServiceClient {
     public void removeLessonAggregate(String lessonId){
 
         //log.debug("3. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
-
         try{
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
-            restTemplate.execute(url, HttpMethod.DELETE, null, null);
-          //  log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
+             restTemplate.delete(url);
+             //  log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with lessonId: " + lessonId);
         }catch (HttpClientErrorException ex){
            // log.debug("5. Received in Api-Gateway Lesson Service Client removeLessonAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
@@ -146,15 +141,5 @@ public class LessonServiceClient {
             return ioex.getMessage();
         }
     }
-
-    private RequestCallback requestCallback(final LessonRequestModel lessonRequestModel) {
-        return clientHttpRequest -> {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(clientHttpRequest.getBody(), lessonRequestModel);
-            clientHttpRequest.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            clientHttpRequest.getHeaders().add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        };
-    }
-
 
 }

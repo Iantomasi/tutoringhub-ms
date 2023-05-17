@@ -32,7 +32,7 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(UNPROCESSABLE_ENTITY)
     @ExceptionHandler(InsufficientCommentException.class)
-    public HttpErrorInfo handleInvalidApprovalStatusException(WebRequest request, Exception ex) {
+    public HttpErrorInfo handleInsufficientCommentException(WebRequest request, Exception ex) {
         return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
     }
 

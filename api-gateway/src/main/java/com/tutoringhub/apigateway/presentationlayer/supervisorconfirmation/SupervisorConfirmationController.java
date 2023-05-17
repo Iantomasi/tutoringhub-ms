@@ -18,21 +18,21 @@ public class SupervisorConfirmationController {
         this.supervisorConfirmationService = supervisorConfirmationService;
     }
 
-    @GetMapping(produces ="application/json")
-    ResponseEntity<List<SupervisorConfirmationResponseModel>> getAllSupervisorConfirmations(){
-        return ResponseEntity.ok().body(supervisorConfirmationService.getAllSupervisorConfirmations());
-    }
+//    @GetMapping(produces ="application/json")
+//    ResponseEntity<List<SupervisorConfirmationResponseModel>> getAllSupervisorConfirmations(){
+//        return ResponseEntity.ok().body(supervisorConfirmationService.getAllSupervisorConfirmations());
+//    }
 
-    @GetMapping(value ="/{supervisorConfirmationId}" ,produces ="application/json")
-    ResponseEntity<SupervisorConfirmationResponseModel> getSupervisorConfirmationById(@PathVariable String supervisorConfirmationId){
-        return ResponseEntity.ok().body(supervisorConfirmationService.getSupervisorConfirmationById(supervisorConfirmationId));
-    }
+//    @GetMapping(value ="/{supervisorConfirmationId}" ,produces ="application/json")
+//    ResponseEntity<SupervisorConfirmationResponseModel> getSupervisorConfirmationById(@PathVariable String supervisorConfirmationId){
+//        return ResponseEntity.ok().body(supervisorConfirmationService.getSupervisorConfirmationById(supervisorConfirmationId));
+//    }
 
 
-    @DeleteMapping(value = "/{supervisorConfirmationId}", produces = "application/json")
-    ResponseEntity<Void> removeSupervisorConfirmation(@PathVariable String supervisorConfirmationId) {
-        supervisorConfirmationService.removeSupervisorConfirmation(supervisorConfirmationId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping(value = "/{supervisorConfirmationId}", produces = "application/json")
+//    ResponseEntity<Void> removeSupervisorConfirmation(@PathVariable String supervisorConfirmationId) {
+//        supervisorConfirmationService.removeSupervisorConfirmation(supervisorConfirmationId);
+//        return ResponseEntity.noContent().build();
+//    }
 
 }

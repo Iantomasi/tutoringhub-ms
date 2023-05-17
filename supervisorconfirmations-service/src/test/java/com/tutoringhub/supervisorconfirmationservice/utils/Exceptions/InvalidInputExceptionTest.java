@@ -1,4 +1,4 @@
-package com.tutoringhub.apigateway.utils.exceptions;
+package com.tutoringhub.supervisorconfirmationservice.utils.Exceptions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InvalidInputExceptionTest {
-
     @Test
     public void testDefaultConstructor() {
         InvalidInputException exception = new InvalidInputException();
@@ -36,7 +35,5 @@ class InvalidInputExceptionTest {
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());
     }
-
-
 
 }

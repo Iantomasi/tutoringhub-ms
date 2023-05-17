@@ -46,13 +46,14 @@ public class TutorServiceClient {
 
 
     public List<TutorResponseModel> getAllTutorsAggregate() {
-        log.debug("3. Received in Api-Gateway Tutor Service Client getAllTutorsAggregate");
+        //log.debug("3. Received in Api-Gateway Tutor Service Client getAllTutorsAggregate");
         try {
             String url = TUTOR_SERVICE_BASE_URL;
 
             TutorResponseModel[] tutorsResponseArray = restTemplate
                     .getForObject(url, TutorResponseModel[].class);
             return Arrays.asList(tutorsResponseArray);
+
         } catch (HttpClientErrorException ex) {
             //  log.debug("5. Received in Api-Gateway Tutor Service Client getAllTutorsAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
@@ -86,7 +87,6 @@ public class TutorServiceClient {
             TutorResponseModel tutorResponseModel = restTemplate.postForObject(url, tutorRequestModel, TutorResponseModel.class);
             return tutorResponseModel;
         } catch (HttpClientErrorException ex) {
-
             //   log.debug("5. Received in Api-Gateway Tutor Service Client addTutorAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
@@ -98,10 +98,11 @@ public class TutorServiceClient {
 
         try {
             String url = TUTOR_SERVICE_BASE_URL + "/" + tutorId;
+            restTemplate.put(url, tutorRequestModel, tutorId);
 
-            restTemplate.execute(url, HttpMethod.PUT, requestCallback(tutorRequestModel), clientHttpResponse -> null);
             TutorResponseModel tutorResponseModel = restTemplate
                     .getForObject(url, TutorResponseModel.class);
+
             //    log.debug("5. Received in Api-Gateway Tutor Service Client updateTutorAggregate with tutorResponseModel: " + tutorResponseModel.getTutorId());
             return tutorResponseModel;
         } catch (HttpClientErrorException ex) {
@@ -114,10 +115,9 @@ public class TutorServiceClient {
         // log.debug("3. Received in Api-Gateway Tutor Service Client removeTutorAggregate with tutorId: " + tutorId);
         try {
             String url = TUTOR_SERVICE_BASE_URL + "/" + tutorId;
-            restTemplate.execute(url, HttpMethod.DELETE, null, null);
+            restTemplate.delete(url);
             //   log.debug("5. Received in Api-Gateway Tutor Service Client removeTutorAggregate with tutorId: " + tutorId);
         } catch (HttpClientErrorException ex) {
-
             //    log.debug("5. Received in Api-Gateway Tutor Service Client removeTutorAggregate with exception: " + ex.getMessage());
             throw handleHttpClientException(ex);
         }
@@ -141,16 +141,6 @@ public class TutorServiceClient {
         } catch (IOException ioex) {
             return ioex.getMessage();
         }
-    }
-
-    private RequestCallback requestCallback(final TutorRequestModel tutorRequestModel) {
-        return clientHttpRequest -> {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(clientHttpRequest.getBody(), tutorRequestModel);
-            clientHttpRequest.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            clientHttpRequest.getHeaders().add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        };
-
     }
 }
 

@@ -46,19 +46,19 @@ public class SupervisorConfirmationServiceClient {
     }
 
 
-    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations(){
-
-
-        try{
-            String url = SUPERVISORCONFIRMATION_BASE_URL;
-            SupervisorConfirmationResponseModel[] supervisorConfirmationsResponseArray =
-                    restTemplate.getForObject(url, SupervisorConfirmationResponseModel[].class);
-            return Arrays.asList(supervisorConfirmationsResponseArray);
-        }
-        catch (HttpClientErrorException ex){
-            throw handleHttpClientException(ex);
-        }
-    }
+//    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations(){
+//
+//
+//        try{
+//            String url = SUPERVISORCONFIRMATION_BASE_URL;
+//            SupervisorConfirmationResponseModel[] supervisorConfirmationsResponseArray =
+//                    restTemplate.getForObject(url, SupervisorConfirmationResponseModel[].class);
+//            return Arrays.asList(supervisorConfirmationsResponseArray);
+//        }
+//        catch (HttpClientErrorException ex){
+//            throw handleHttpClientException(ex);
+//        }
+//    }
 
     public List<SupervisorConfirmationResponseModel> getStudentExtraCreditReport(String studentId) {
 
@@ -74,20 +74,20 @@ public class SupervisorConfirmationServiceClient {
         }
     }
 
-    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId){
-
-        try {
-            String url = SUPERVISORCONFIRMATION_BASE_URL + "/" + supervisorConfirmationId;
-
-            SupervisorConfirmationResponseModel supervisorConfirmationResponseModel =
-                    restTemplate.getForObject(url, SupervisorConfirmationResponseModel.class);
-
-            return supervisorConfirmationResponseModel;
-        }
-        catch (HttpClientErrorException ex){
-            throw handleHttpClientException(ex);
-        }
-    }
+//    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId){
+//
+//        try {
+//            String url = SUPERVISORCONFIRMATION_BASE_URL + "/" + supervisorConfirmationId;
+//
+//            SupervisorConfirmationResponseModel supervisorConfirmationResponseModel =
+//                    restTemplate.getForObject(url, SupervisorConfirmationResponseModel.class);
+//
+//            return supervisorConfirmationResponseModel;
+//        }
+//        catch (HttpClientErrorException ex){
+//            throw handleHttpClientException(ex);
+//        }
+//    }
 
     public SupervisorConfirmationResponseModel getSupervisorConfirmationByIdInStudentExtraCreditReport(String studentId, String supervisorConfirmationId){
 
@@ -148,17 +148,17 @@ public class SupervisorConfirmationServiceClient {
         }
     }
 
-    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
-
-        try {
-            String url = SUPERVISORCONFIRMATION_BASE_URL + "/" + supervisorConfirmationId;
-
-            restTemplate.delete(url);
-
-        } catch (HttpClientErrorException ex) {
-            throw handleHttpClientException(ex);
-        }
-    }
+//    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
+//
+//        try {
+//            String url = SUPERVISORCONFIRMATION_BASE_URL + "/" + supervisorConfirmationId;
+//
+//            restTemplate.delete(url);
+//
+//        } catch (HttpClientErrorException ex) {
+//            throw handleHttpClientException(ex);
+//        }
+//    }
 
     public void removeStudentSupervisorConfirmation(String studentId, String supervisorConfirmationId) {
 

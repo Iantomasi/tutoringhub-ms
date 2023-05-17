@@ -1,12 +1,13 @@
 package com.tutoringhub.apigateway.presentationlayer.lesson;
 
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class LessonResponseModel {
+public class LessonResponseModel extends RepresentationModel<LessonResponseModel> {
 
     private String lessonId;
     private String lessonSubject;

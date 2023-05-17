@@ -1,13 +1,15 @@
 package com.tutoringhub.lessonservice.presentationlayer;
 
+import com.tutoringhub.lessonservice.datalayer.Lesson;
 import com.tutoringhub.lessonservice.datalayer.LessonStatus;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 
-@Value
-@Builder
+//@Builder
 //@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class LessonResponseModel {
+@Value
+public class LessonResponseModel extends RepresentationModel<LessonResponseModel> {
 
     private String lessonId;
     private String lessonSubject;

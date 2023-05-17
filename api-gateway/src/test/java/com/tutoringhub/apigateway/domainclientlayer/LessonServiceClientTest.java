@@ -166,8 +166,6 @@ class LessonServiceClientTest {
     }
 
 
-
-
     @Test
     public void updateLesson() {
         // Given
@@ -177,13 +175,9 @@ class LessonServiceClientTest {
 
         LessonRequestModel lessonRequestModel = new LessonRequestModel("English", "May 15 2023", "14:00-14:45", "A101", LessonStatus.SCHEDULED, "900 Riverside Drive", "Saint-Lambert", "J6V 1S4");
 
-        when(restTemplate.execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any())).thenReturn(null);
-
-        // When
         lessonServiceClient.updateLessonAggregate(lessonRequestModel, lessonId);
 
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any());
+        verify(restTemplate).put(eq(url), eq(lessonRequestModel), eq(lessonId));
     }
 
     @Test
@@ -194,51 +188,9 @@ class LessonServiceClientTest {
 
         when(restTemplate.execute(eq(url), eq(HttpMethod.DELETE), any(),  any())).thenReturn(null);
 
-        // When
         lessonServiceClient.removeLessonAggregate(lessonId);
 
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.DELETE), any(),  any());
-    }
-
-    @Test
-    public void callbackMethodTest() throws Exception {
-        // Arrange
-        LessonRequestModel lessonRequestModel = LessonRequestModel.builder()
-                .lessonSubject("English")
-                .lessonDate("May 15 2023")
-                .lessonDuration("14:00-14:45")
-                .lessonClassroom("A101")
-                .lessonStatus(LessonStatus.SCHEDULED)
-                .streetAddress("900 Riverside Drive")
-                .city("Saint-Lambert")
-                .postalCode("J6V 1S4")
-                .city("city")
-                .build();
-
-        // Mocking ClientHttpRequest
-        ClientHttpRequest clientHttpRequest = mock(ClientHttpRequest.class);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        when(clientHttpRequest.getBody()).thenReturn(outputStream);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        when(clientHttpRequest.getHeaders()).thenReturn(httpHeaders);
-
-        // Access private method via reflection
-        Method requestCallbackMethod = LessonServiceClient.class.getDeclaredMethod("requestCallback", LessonRequestModel.class);
-        requestCallbackMethod.setAccessible(true);
-
-        // Act
-        RequestCallback requestCallback = (RequestCallback) requestCallbackMethod.invoke(lessonServiceClient, lessonRequestModel);
-        requestCallback.doWithRequest(clientHttpRequest);
-
-        // Assert
-        ObjectMapper mapper = new ObjectMapper();
-        String expectedBody = mapper.writeValueAsString(lessonRequestModel);
-        String actualBody = outputStream.toString();
-        assertEquals(expectedBody, actualBody);
-
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, httpHeaders.getContentType().toString());
-        assertTrue(httpHeaders.getAccept().contains(MediaType.APPLICATION_JSON));
+        verify(restTemplate).delete(url);
     }
 
 }

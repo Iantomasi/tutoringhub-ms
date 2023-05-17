@@ -12,6 +12,8 @@ import com.tutoringhub.apigateway.utils.HttpErrorInfo;
 import com.tutoringhub.apigateway.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -61,7 +63,6 @@ class StudentServiceClientTest {
     public void getAllStudents_Success() {
         // Arrange
         String url = baseUrl;
-
 
         StudentResponseModel student1 = new StudentResponseModel("12345", "Neymar", "21", "njr@gmail.com", "Champlain College Saint-Lambert");
         StudentResponseModel student2 = new StudentResponseModel("56789", "Mbappe", "21", "mb10@gmail.com", "Champlain College Saint-Lambert");
@@ -136,11 +137,10 @@ class StudentServiceClientTest {
     }
 
 
-
     @Test
     public void getStudentByStudentId_NotFoundException() throws JsonProcessingException {
         String studentId = "This is an invalid studentId";
-        HttpErrorInfo errorInfo = new HttpErrorInfo( HttpStatus.NOT_FOUND, "/api/v1/students/" + studentId,"Not Found");
+        HttpErrorInfo errorInfo = new HttpErrorInfo(HttpStatus.NOT_FOUND, "/api/v1/students/" + studentId, "Not Found");
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
@@ -164,8 +164,6 @@ class StudentServiceClientTest {
     }
 
 
-
-
     @Test
     public void updateStudent() {
         // Given
@@ -175,13 +173,9 @@ class StudentServiceClientTest {
 
         StudentRequestModel studentRequestModel = new StudentRequestModel("Chiesa", "22", "fedex7@gmail.com", "Champlain College Saint-Lambert");
 
-        when(restTemplate.execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any())).thenReturn(null);
+        studentServiceClient.updateStudentAggregate(studentRequestModel,studentId);
 
-        // When
-        studentServiceClient.updateStudentAggregate(studentRequestModel, studentId);
-
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.PUT), any(RequestCallback.class), any());
+        verify(restTemplate).put(eq(url), eq(studentRequestModel), eq(studentId));
     }
 
     @Test
@@ -190,48 +184,11 @@ class StudentServiceClientTest {
         String studentId = "2032334";
         String url = baseUrl + "/" + studentId;
 
-        when(restTemplate.execute(eq(url), eq(HttpMethod.DELETE), any(),  any())).thenReturn(null);
-
-        // When
         studentServiceClient.removeStudentAggregate(studentId);
 
-        // Then
-        verify(restTemplate, times(1)).execute(eq(url), eq(HttpMethod.DELETE), any(),  any());
-    }
-
-    @Test
-    public void callbackMethodTest() throws Exception {
-        // Arrange
-        StudentRequestModel studentRequestModel = StudentRequestModel.builder()
-                .studentName("Neymar")
-                .studentAge("21")
-                .studentEmail("njr@gmail.com")
-                .studentSchool("Champlain College Saint-Lambert")
-                .build();
-
-        // Mocking ClientHttpRequest
-        ClientHttpRequest clientHttpRequest = mock(ClientHttpRequest.class);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        when(clientHttpRequest.getBody()).thenReturn(outputStream);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        when(clientHttpRequest.getHeaders()).thenReturn(httpHeaders);
-
-        // Access private method via reflection
-        Method requestCallbackMethod = StudentServiceClient.class.getDeclaredMethod("requestCallback", StudentRequestModel.class);
-        requestCallbackMethod.setAccessible(true);
-
-        // Act
-        RequestCallback requestCallback = (RequestCallback) requestCallbackMethod.invoke(studentServiceClient, studentRequestModel);
-        requestCallback.doWithRequest(clientHttpRequest);
-
-        // Assert
-        ObjectMapper mapper = new ObjectMapper();
-        String expectedBody = mapper.writeValueAsString(studentRequestModel);
-        String actualBody = outputStream.toString();
-        assertEquals(expectedBody, actualBody);
-
-        assertEquals(MediaType.APPLICATION_JSON_VALUE, httpHeaders.getContentType().toString());
-        assertTrue(httpHeaders.getAccept().contains(MediaType.APPLICATION_JSON));
+        verify(restTemplate).delete(url);
     }
 
 }
+
+

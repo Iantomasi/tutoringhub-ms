@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Value
 public class SupervisorConfirmationRequestModel {
 
+     String supervisorConfirmationId;
      String lessonId;
      String studentId;
      String tutorId;

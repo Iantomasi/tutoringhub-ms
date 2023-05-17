@@ -16,7 +16,7 @@ class InsufficientCommentExceptionTest {
 
     @Test
     public void testMessageConstructor() {
-        String errorMessage = "Duplicate ID found!";
+        String errorMessage = "Insufficient comment, must be greater than 5 characters";
         InsufficientCommentException exception = new InsufficientCommentException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
         assertNull(exception.getCause());
@@ -30,8 +30,8 @@ class InsufficientCommentExceptionTest {
     }
     @Test
     public void testMessageAndCauseConstructor() {
-        String errorMessage = "Duplicate ID found!";
-        Throwable cause = new IllegalArgumentException("Invalid ID");
+        String errorMessage = "Insufficient comment, must be greater than 5 characters";
+        Throwable cause = new IllegalArgumentException("Invalid Id");
         InsufficientCommentException exception = new InsufficientCommentException(errorMessage, cause);
         assertEquals(errorMessage, exception.getMessage());
         assertEquals(cause, exception.getCause());

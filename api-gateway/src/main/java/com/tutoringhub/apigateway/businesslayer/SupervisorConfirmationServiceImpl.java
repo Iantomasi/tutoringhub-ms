@@ -20,23 +20,23 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
     public SupervisorConfirmationServiceImpl(SupervisorConfirmationServiceClient supervisorConfirmationServiceClient) {
         this.supervisorConfirmationServiceClient = supervisorConfirmationServiceClient;
     }
-
-    @Override
-    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations() {
-
-        return supervisorConfirmationServiceClient.getAllSupervisorConfirmations();
-    }
+//
+//    @Override
+//    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations() {
+//
+//        return supervisorConfirmationServiceClient.getAllSupervisorConfirmations();
+//    }
 
     @Override
     public List<SupervisorConfirmationResponseModel> getStudentExtraCreditReport(String studentId) {
         return supervisorConfirmationServiceClient.getStudentExtraCreditReport(studentId);
     }
 
-    @Override
-    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId) {
-
-        return supervisorConfirmationServiceClient.getSupervisorConfirmationById(supervisorConfirmationId);
-    }
+//    @Override
+//    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId) {
+//
+//        return supervisorConfirmationServiceClient.getSupervisorConfirmationById(supervisorConfirmationId);
+//    }
 
     @Override
     public SupervisorConfirmationResponseModel getSupervisorConfirmationByIdInStudentExtraCreditReport(String studentId, String supervisorConfirmationId) {
@@ -53,10 +53,10 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
         return supervisorConfirmationServiceClient.updateSupervisorConfirmation(supervisorConfirmationRequestModel, studentId, supervisorConfirmationId);
     }
 
-    @Override
-    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
-        supervisorConfirmationServiceClient.removeSupervisorConfirmation(supervisorConfirmationId);
-    }
+//    @Override
+//    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
+//        supervisorConfirmationServiceClient.removeSupervisorConfirmation(supervisorConfirmationId);
+//    }
 
     @Override
     public void removeStudentSupervisorConfirmation(String studentId, String supervisorConfirmationId) {
