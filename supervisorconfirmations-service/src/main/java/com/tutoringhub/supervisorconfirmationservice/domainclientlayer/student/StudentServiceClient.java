@@ -47,9 +47,9 @@ public class StudentServiceClient {
             String url = STUDENT_SERVICE_BASE_URL + "/" + studentId;
             studentResponseModel = restTemplate
                     .getForObject(url, StudentResponseModel.class);
-            log.debug("5. Received in API-Gateway Student Service Client getStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
+           // log.debug("5. Received in API-Gateway Student Service Client getStudentAggregate with studentResponseModel: " + studentResponseModel.getStudentId());
         }catch(HttpClientErrorException ex) {
-            log.debug("5.");
+           // log.debug("5.");
             throw handleHttpClientException(ex);
         }
         return studentResponseModel;
@@ -62,8 +62,8 @@ public class StudentServiceClient {
         if (ex.getStatusCode() == UNPROCESSABLE_ENTITY) {
             return new InvalidInputException(getErrorMessage(ex));
         }
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-        log.warn("Error body: {}", ex.getResponseBodyAsString());
+        //log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+        //log.warn("Error body: {}", ex.getResponseBodyAsString());
         return ex;
     }
     private String getErrorMessage(HttpClientErrorException ex) {

@@ -7,6 +7,7 @@ import com.tutoringhub.apigateway.presentationlayer.supervisorconfirmation.Appro
 import com.tutoringhub.apigateway.presentationlayer.supervisorconfirmation.SupervisorConfirmationRequestModel;
 import com.tutoringhub.apigateway.presentationlayer.supervisorconfirmation.SupervisorConfirmationResponseModel;
 import com.tutoringhub.apigateway.utils.HttpErrorInfo;
+import com.tutoringhub.apigateway.utils.exceptions.InsufficientCommentException;
 import com.tutoringhub.apigateway.utils.exceptions.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,7 +121,6 @@ class SupervisorConfirmationServiceClientTest {
 
         assertTrue(exception.getMessage().contains("Not Found"));
     }
-
 
     @Test
     public void addSupervisorConfirmationTest() {

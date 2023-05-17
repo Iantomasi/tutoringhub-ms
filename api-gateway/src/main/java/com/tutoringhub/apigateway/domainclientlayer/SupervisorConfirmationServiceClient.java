@@ -191,8 +191,8 @@ public class SupervisorConfirmationServiceClient {
         if (ex.getStatusCode() == UNPROCESSABLE_ENTITY) {
         return new InsufficientCommentException(getErrorMessage(ex));
         }
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-        log.warn("Error body: {}", ex.getResponseBodyAsString());
+        //log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+        //log.warn("Error body: {}", ex.getResponseBodyAsString());
         return ex;
     }
 }

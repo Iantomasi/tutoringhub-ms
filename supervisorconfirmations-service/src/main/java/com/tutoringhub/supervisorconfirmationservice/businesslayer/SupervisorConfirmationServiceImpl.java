@@ -34,11 +34,11 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
     private final TutorServiceClient tutorServiceClient;
 
 
-    @Override
-    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations() {
-        List<SupervisorConfirmation> supervisorConfirmations = supervisorConfirmationRepository.findAll();
-        return supervisorConfirmationResponseModelMapper.entityListToResponseModelList(supervisorConfirmations);
-    }
+//    @Override
+//    public List<SupervisorConfirmationResponseModel> getAllSupervisorConfirmations() {
+//        List<SupervisorConfirmation> supervisorConfirmations = supervisorConfirmationRepository.findAll();
+//        return supervisorConfirmationResponseModelMapper.entityListToResponseModelList(supervisorConfirmations);
+//    }
 
     @Override
     public List<SupervisorConfirmationResponseModel> getStudentExtraCreditReport(String studentId) {
@@ -50,17 +50,18 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
     }
 
 
-    @Override
-    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId) {
+//    @Override
+//    public SupervisorConfirmationResponseModel getSupervisorConfirmationById(String supervisorConfirmationId) {
+//
+//        SupervisorConfirmation supervisorConfirmation = supervisorConfirmationRepository.findSupervisorConfirmationBySupervisorConfirmationIdentifier_supervisorConfirmationId(supervisorConfirmationId);
+//
+//        if (supervisorConfirmation == null) {
+//            throw new NotFoundException("Unknown supervisorConfirmationId provided");
+//        }
+//
+//        return supervisorConfirmationResponseModelMapper.entityToResponseModel(supervisorConfirmation);
+//    }
 
-        SupervisorConfirmation supervisorConfirmation = supervisorConfirmationRepository.findSupervisorConfirmationBySupervisorConfirmationIdentifier_supervisorConfirmationId(supervisorConfirmationId);
-
-        if (supervisorConfirmation == null) {
-            throw new NotFoundException("Unknown supervisorConfirmationId provided");
-        }
-
-        return supervisorConfirmationResponseModelMapper.entityToResponseModel(supervisorConfirmation);
-    }
 
     @Override
     public SupervisorConfirmationResponseModel getSupervisorConfirmationByIdInStudentExtraCreditReport(String studentId, String supervisorConfirmationId) {
@@ -201,17 +202,17 @@ public class SupervisorConfirmationServiceImpl implements SupervisorConfirmation
         return supervisorConfirmationResponseModelMapper.entityToResponseModel(updatedSupervisorConfirmation);
     }
 
-    @Override
-    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
-
-        SupervisorConfirmation existingSupervisorConfirmation = supervisorConfirmationRepository.findSupervisorConfirmationBySupervisorConfirmationIdentifier_supervisorConfirmationId(supervisorConfirmationId);
-
-        if (existingSupervisorConfirmation == null) {
-            throw new NotFoundException("No SupervisorConfirmation assigned to this studentId and supervisorConfirmationId");
-        } else {
-            supervisorConfirmationRepository.delete(existingSupervisorConfirmation);
-        }
-    }
+//    @Override
+//    public void removeSupervisorConfirmation(String supervisorConfirmationId) {
+//
+//        SupervisorConfirmation existingSupervisorConfirmation = supervisorConfirmationRepository.findSupervisorConfirmationBySupervisorConfirmationIdentifier_supervisorConfirmationId(supervisorConfirmationId);
+//
+//        if (existingSupervisorConfirmation == null) {
+//            throw new NotFoundException("No SupervisorConfirmation assigned to this studentId and supervisorConfirmationId");
+//        } else {
+//            supervisorConfirmationRepository.delete(existingSupervisorConfirmation);
+//        }
+//    }
 
     @Override
     public void removeStudentSupervisorConfirmation(String studentId, String supervisorConfirmationId) {

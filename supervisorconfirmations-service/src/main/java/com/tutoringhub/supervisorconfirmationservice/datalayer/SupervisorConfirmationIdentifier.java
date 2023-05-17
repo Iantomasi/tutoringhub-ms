@@ -13,6 +13,11 @@ public class SupervisorConfirmationIdentifier {
         this.supervisorConfirmationId = UUID.randomUUID().toString();
     }
 
+    public SupervisorConfirmationIdentifier(String supervisorConfirmationId) {
+        this.supervisorConfirmationId = supervisorConfirmationId;
+    }
+
+
     public String getSupervisorConfirmationId() {
         return supervisorConfirmationId;
     }

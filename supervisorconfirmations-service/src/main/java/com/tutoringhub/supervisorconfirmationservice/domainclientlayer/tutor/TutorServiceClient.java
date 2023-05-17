@@ -47,10 +47,10 @@ public class TutorServiceClient {
             String url = TUTOR_SERVICE_BASE_URL + "/" + tutorId;
             tutorResponseModel = restTemplate
                     .getForObject(url, TutorResponseModel.class);
-            log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + tutorResponseModel.getTutorId());
+           // log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + tutorResponseModel.getTutorId());
         }catch(HttpClientErrorException ex) {
 
-            log.debug("5.");
+           // log.debug("5.");
             throw handleHttpClientException(ex);
         }
         return tutorResponseModel;
@@ -64,8 +64,8 @@ public class TutorServiceClient {
         if (ex.getStatusCode() == UNPROCESSABLE_ENTITY) {
             return new InvalidInputException(getErrorMessage(ex));
         }
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-        log.warn("Error body: {}", ex.getResponseBodyAsString());
+        //log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+        //log.warn("Error body: {}", ex.getResponseBodyAsString());
         return ex;
     }
     private String getErrorMessage(HttpClientErrorException ex) {

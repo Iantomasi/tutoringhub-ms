@@ -46,9 +46,9 @@ public class LessonServiceClient {
             String url = LESSON_SERVICE_BASE_URL + "/" + lessonId;
             lessonResponseModel = restTemplate
                     .getForObject(url, LessonResponseModel.class);
-            log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
+           // log.debug("5. Received in API-Gateway Lesson Service Client getLessonAggregate with lessonResponseModel: " + lessonResponseModel.getLessonId());
         }catch(HttpClientErrorException ex) {
-            log.debug("5.");
+           // log.debug("5.");
             throw  handleHttpClientException(ex);
         }
          return lessonResponseModel;
@@ -57,7 +57,7 @@ public class LessonServiceClient {
 
 
     public void updateLessonStatus(LessonRequestModel lessonRequestModel, String lessonId){
-        log.debug("3. Received in API-Gateway Lesson Service Client updateLessonStatus");
+       // log.debug("3. Received in API-Gateway Lesson Service Client updateLessonStatus");
 
         try{
 
@@ -65,12 +65,18 @@ public class LessonServiceClient {
           restTemplate.put(url, lessonRequestModel);
 
 
-            log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with lessonId: "
+           /*
+           log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with lessonId: "
                     + lessonId);
 
+            */
+
         }catch (HttpClientErrorException ex){
-            log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with exception: "
+           /*
+           log.debug("5. Received in API-Gateway Lesson Service Client updateLessonStatus with exception: "
                     +ex.getMessage());
+
+            */
             throw handleHttpClientException(ex);
 
         }
@@ -84,8 +90,8 @@ public class LessonServiceClient {
         if (ex.getStatusCode() == UNPROCESSABLE_ENTITY) {
             return new InvalidInputException(getErrorMessage(ex));
         }
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-        log.warn("Error body: {}", ex.getResponseBodyAsString());
+       // log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+       // log.warn("Error body: {}", ex.getResponseBodyAsString());
         return ex;
     }
     private String getErrorMessage(HttpClientErrorException ex) {

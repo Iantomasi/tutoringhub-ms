@@ -131,8 +131,8 @@ public class StudentServiceClient {
         if (ex.getStatusCode() == UNPROCESSABLE_ENTITY) {
             return new DuplicateEmailException(getErrorMessage(ex));
         }
-        log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-        log.warn("Error body: {}", ex.getResponseBodyAsString());
+        //log.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+        //log.warn("Error body: {}", ex.getResponseBodyAsString());
         return ex;
     }
     private String getErrorMessage(HttpClientErrorException ex) {
